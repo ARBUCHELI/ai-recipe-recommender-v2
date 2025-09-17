@@ -1,0 +1,30 @@
+
+🚀 How to Run the Project Locally:
+
+Prerequisites:
+1. PostgreSQL installed and running
+2. Node.js (v18 or higher)
+3. npm or yarn
+
+Step 1: Start PostgreSQL
+Make sure PostgreSQL is running on your system with:
+•  User: postgres
+•  Password: postgres
+•  Port: 5432 (default)
+
+Step 2: Run the Backend
+
+# Navigate to backend folder
+cd backend
+
+# Install dependencies (if not done already)
+npm install
+
+# Generate Prisma client (if not done already)
+npx prisma generate
+
+# Run database migration (if not done already)
+npx prisma migrate dev --name initial
+
+# Start the development server
+npm run dev

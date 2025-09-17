@@ -1,0 +1,524 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Professional warm color palette with excellent contrast */
+    --background: 0 0% 98%;        /* Clean off-white */
+    --foreground: 0 0% 9%;         /* Deep charcoal for excellent readability */
+
+    --card: 0 0% 100%;             /* Pure white for cards */
+    --card-foreground: 0 0% 9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+
+    /* Professional primary orange */
+    --primary: 25 85% 55%;         /* Refined orange, less saturated */
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 25 85% 45%;    /* Darker shade for variety */
+
+    /* Professional secondary colors */
+    --secondary: 210 15% 25%;      /* Professional dark blue-gray */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 15% 96%;          /* Light neutral background */
+    --muted-foreground: 210 10% 40%; /* Medium gray with good contrast */
+
+    /* Professional accent colors */
+    --accent-gold: 45 85% 58%;     /* Professional gold */
+    --accent-green: 130 45% 45%;   /* Professional green */
+    --accent-blue: 210 80% 55%;    /* Professional blue */
+    --accent-red: 5 75% 55%;       /* Professional red */
+
+    --destructive: 5 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 15% 88%;         /* Subtle borders */
+    --input: 210 15% 94%;
+    --ring: 25 85% 55%;
+
+    --radius: 0.75rem;
+    
+    /* Professional color palette - solid colors only */
+    --brand-orange: 25 85% 55%;    /* Main brand color */
+    --brand-orange-dark: 25 85% 45%; /* Darker variation */
+    --brand-orange-light: 25 45% 85%; /* Light variation */
+    
+    --success-green: 130 45% 45%;  /* Success states */
+    --warning-amber: 45 85% 58%;   /* Warning states */
+    --error-red: 5 75% 55%;        /* Error states */
+    --info-blue: 210 80% 55%;      /* Info states */
+    
+    --neutral-50: 210 15% 98%;     /* Very light neutral */
+    --neutral-100: 210 15% 96%;    /* Light neutral */
+    --neutral-200: 210 15% 88%;    /* Border neutral */
+    --neutral-300: 210 10% 75%;    /* Subtle text */
+    --neutral-400: 210 10% 60%;    /* Secondary text */
+    --neutral-500: 210 10% 40%;    /* Primary gray text */
+    --neutral-600: 210 15% 25%;    /* Dark text */
+    --neutral-700: 210 20% 15%;    /* Very dark text */
+    --neutral-800: 0 0% 9%;        /* Almost black */
+
+    /* Professional shadows for depth */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1), 0 8px 10px -6px hsl(0 0% 0% / 0.1);
+    
+    /* Professional transitions */
+    --transition-fast: all 0.2s ease;
+    --transition-smooth: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+    --transition-spring: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Vibrant nutrition colors */
+    --nutrition-protein: 15 85% 55%;  /* Rich tomato red for protein */
+    --nutrition-carbs: 48 89% 60%;    /* Golden yellow for carbs */
+    --nutrition-fat: 84 70% 50%;      /* Fresh lime green for fats */
+    --nutrition-calories: 0 75% 60%;  /* Cherry red for calories */
+
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 25 95% 53%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  /* Prevent horizontal scrolling globally */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* Ensure no element creates horizontal overflow */
+  .overflow-safe {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Prevent any element from extending beyond viewport */
+  .w-screen-safe {
+    width: 100vw;
+    max-width: 100%;
+  }
+
+  /* Constrain container to viewport without scrolling */
+  .container-safe {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  /* Professional button styles */
+  .btn-primary {
+    background-color: hsl(var(--brand-orange));
+    color: white;
+    border: 1px solid hsl(var(--brand-orange));
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-primary:hover {
+    background-color: hsl(var(--brand-orange-dark));
+    border-color: hsl(var(--brand-orange-dark));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    background-color: hsl(var(--secondary));
+    color: white;
+    border: 1px solid hsl(var(--secondary));
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-secondary:hover {
+    background-color: hsl(var(--neutral-700));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .btn-success {
+    background-color: hsl(var(--success-green));
+    color: white;
+    border: 1px solid hsl(var(--success-green));
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-success:hover {
+    background-color: hsl(130 45% 40%);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .btn-warning {
+    background-color: hsl(var(--warning-amber));
+    color: white;
+    border: 1px solid hsl(var(--warning-amber));
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-warning:hover {
+    background-color: hsl(45 85% 52%);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  /* Professional color utilities */
+  .bg-brand-primary { background-color: hsl(var(--brand-orange)); }
+  .bg-brand-secondary { background-color: hsl(var(--secondary)); }
+  .bg-success { background-color: hsl(var(--success-green)); }
+  .bg-warning { background-color: hsl(var(--warning-amber)); }
+  .bg-error { background-color: hsl(var(--error-red)); }
+  .bg-info { background-color: hsl(var(--info-blue)); }
+  
+  /* Neutral backgrounds */
+  .bg-neutral-50 { background-color: hsl(var(--neutral-50)); }
+  .bg-neutral-100 { background-color: hsl(var(--neutral-100)); }
+  .bg-neutral-200 { background-color: hsl(var(--neutral-200)); }
+  
+  /* Text colors with excellent contrast */
+  .text-brand-primary { color: hsl(var(--brand-orange)); }
+  .text-brand-secondary { color: hsl(var(--secondary)); }
+  .text-success { color: hsl(var(--success-green)); }
+  .text-warning { color: hsl(var(--warning-amber)); }
+  .text-error { color: hsl(var(--error-red)); }
+  .text-info { color: hsl(var(--info-blue)); }
+  
+  /* High contrast text utilities */
+  .text-primary-dark { color: hsl(var(--neutral-800)); }
+  .text-secondary-dark { color: hsl(var(--neutral-600)); }
+  .text-muted-dark { color: hsl(var(--neutral-500)); }
+  .text-subtle { color: hsl(var(--neutral-400)); }
+  
+  /* Professional border colors */
+  .border-brand { border-color: hsl(var(--brand-orange)); }
+  .border-neutral { border-color: hsl(var(--neutral-200)); }
+  .border-success { border-color: hsl(var(--success-green)); }
+  .border-warning { border-color: hsl(var(--warning-amber)); }
+  .border-error { border-color: hsl(var(--error-red)); }
+  
+  /* Professional shadow utilities */
+  .shadow-professional-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .shadow-professional-md {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .shadow-professional-lg {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .shadow-professional-xl {
+    box-shadow: var(--shadow-xl);
+  }
+  
+  /* Fun hover animations */
+  .bounce-hover:hover {
+    animation: bounce 0.6s ease;
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+      transform: translate3d(0,0,0);
+    }
+    40%, 43% {
+      transform: translate3d(0, -8px, 0);
+    }
+    70% {
+      transform: translate3d(0, -4px, 0);
+    }
+    90% {
+      transform: translate3d(0, -2px, 0);
+    }
+  }
+  
+  /* Modern shadows */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .shadow-glass {
+    box-shadow: var(--shadow-glass);
+  }
+  
+  /* Modern transitions */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-spring {
+    transition: var(--transition-spring);
+  }
+  
+  /* Enhanced animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-gradient-x {
+    animation: gradient-x 3s ease infinite;
+    background-size: 200% 200%;
+  }
+  
+  /* Modern hover effects */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+    transform: scale(1.02);
+  }
+  
+  /* Glass morphism effects */
+  .glass {
+    background: hsla(var(--background), 0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsla(var(--border), 0.2);
+  }
+  
+  .glass-dark {
+    background: hsla(var(--background), 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsla(var(--border), 0.3);
+  }
+
+  /* Modal specific styling for better visibility */
+  .modal-content {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  /* Modern text effects */
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-shimmer {
+    background: linear-gradient(90deg, hsl(var(--muted-foreground)), hsl(var(--primary)), hsl(var(--muted-foreground)));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+  
+  /* Food background classes removed - now using inline styles for better Vite compatibility */
+  
+  /* Mobile touch improvements */
+  @media (max-width: 768px) {
+    button, .clickable {
+      min-height: 44px; /* iOS/Android touch target size */
+      min-width: 44px;
+    }
+    
+    /* Better touch scrolling */
+    * {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Prevent zoom on input focus */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      font-size: 16px;
+    }
+    
+  }
+  
+  /* Smooth transitions for mobile interactions */
+  .mobile-friendly {
+    transition: transform 0.1s ease-out;
+  }
+  
+  .mobile-friendly:active {
+    transform: scale(0.98);
+  }
+  
+  /* Line clamp utilities for text truncation */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.9); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px hsl(var(--primary) / 0.2); }
+  to { box-shadow: 0 0 30px hsl(var(--primary) / 0.4); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}

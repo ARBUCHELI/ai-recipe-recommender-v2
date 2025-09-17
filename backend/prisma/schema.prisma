@@ -1,0 +1,126 @@
+// AI Recipe Recommender Database Schema
+// Prisma schema for user authentication and recipe management
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication and user management
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  avatarUrl String?  // Profile picture URL
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  recipes     Recipe[]
+  preferences UserPreferences?
+  
+  @@map("users")
+}
+
+// Recipe model for storing AI-generated recipes
+model Recipe {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  prepTime    Int?     // in minutes
+  cookTime    Int?     // in minutes
+  servings    Int?
+  difficulty  String?  // "easy", "medium", "hard"
+  cuisine     String?
+  
+  // JSON fields for complex data
+  ingredients Json     // Array of ingredient objects
+  instructions Json    // Array of instruction steps
+  nutrition   Json?    // Nutrition information object
+  tags        Json     // Array of tags
+  
+  // Metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isPublic    Boolean  @default(false)
+  
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  images      RecipeImage[]
+  
+  @@map("recipes")
+}
+
+// Recipe Image model for storing recipe images
+model RecipeImage {
+  id        String   @id @default(cuid())
+  filename  String
+  originalName String
+  mimeType  String
+  size      Int
+  url       String
+  isMain    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  // Relations
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  
+  @@map("recipe_images")
+}
+
+// Ingredients model for ingredient suggestions and validation
+model Ingredient {
+  id       String @id @default(cuid())
+  name     String @unique
+  category String?
+  unit     String? // default unit (cups, grams, etc.)
+  
+  @@map("ingredients")
+}
+
+// User Preferences model for storing user cooking and dietary preferences
+model UserPreferences {
+  id       String @id @default(cuid())
+  userId   String @unique
+  
+  // Dietary Restrictions and Allergies
+  dietaryRestrictions Json     // Array of dietary restrictions
+  allergies          Json     // Array of allergies
+  
+  // Cuisine Preferences
+  favoriteCuisines   Json     // Array of favorite cuisines
+  dislikedCuisines   Json     // Array of cuisines to avoid
+  
+  // Cooking Settings
+  cookingSkillLevel   String   @default("intermediate") // beginner, intermediate, advanced, expert
+  preferredMealTypes  Json     // breakfast, lunch, dinner, snack, etc.
+  maxCookingTime      Int      @default(45) // in minutes
+  servingSize         Int      @default(4)  // number of people
+  
+  // Notification Settings
+  emailNotifications      Boolean @default(true)
+  pushNotifications       Boolean @default(true)
+  weeklyRecipeEmails      Boolean @default(true)
+  recipeRecommendations   Boolean @default(true)
+  
+  // Display Settings
+  units    String @default("metric")  // metric, imperial
+  language String @default("en")      // en, es, fr
+  theme    String @default("system")  // light, dark, system
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("user_preferences")
+}

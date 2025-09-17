@@ -1,0 +1,483 @@
+{
+  "dashboard": {
+    "title": "Welcome back!",
+    "subtitle": "Your Personalized Nutrition Dashboard",
+    "tabs": {
+      "meals": "Meals",
+      "timing": "Timing", 
+      "shopping": "Shopping"
+    },
+    "meals": {
+      "title": "Today's Personalized Meal Plan",
+      "subtitle": "Customized for your nutrition goals and preferences",
+      "generateButton": "Generate Personalized Meals",
+      "breakfast": "Breakfast",
+      "lunch": "Lunch", 
+      "dinner": "Dinner",
+      "calories": "calories",
+      "protein": "protein",
+      "carbs": "carbs",
+      "fat": "fat",
+      "grams": "g",
+      "loading": "Generating your personalized meal plan...",
+      "recipeList": {
+        "breakfast": {
+          "avocadoToast": "Avocado Toast with Poached Egg",
+          "greekYogurt": "Greek Yogurt with Berries and Nuts",
+          "oatmeal": "Steel-Cut Oats with Banana and Almonds"
+        },
+        "lunch": {
+          "quinoaSalad": "Mediterranean Quinoa Salad",
+          "chickenWrap": "Grilled Chicken and Veggie Wrap", 
+          "lentilSoup": "Hearty Lentil and Vegetable Soup"
+        },
+        "dinner": {
+          "salmonRice": "Baked Salmon with Brown Rice",
+          "stirfry": "Tofu and Vegetable Stir-fry",
+          "chickenBroccoli": "Herb-Crusted Chicken with Broccoli"
+        }
+      }
+    },
+    "timing": {
+      "title": "Optimal Meal Timing",
+      "subtitle": "Recommended eating schedule based on your goals",
+      "breakfast": {
+        "title": "Breakfast",
+        "time": "7:00 - 9:00 AM",
+        "description": "Start your day with balanced nutrition"
+      },
+      "morningSnack": {
+        "title": "Morning Snack", 
+        "time": "10:00 - 11:00 AM",
+        "description": "Light snack to maintain energy"
+      },
+      "lunch": {
+        "title": "Lunch",
+        "time": "12:00 - 2:00 PM", 
+        "description": "Balanced midday meal"
+      },
+      "afternoonSnack": {
+        "title": "Afternoon Snack",
+        "time": "3:00 - 4:00 PM",
+        "description": "Healthy snack to avoid afternoon slump"
+      },
+      "dinner": {
+        "title": "Dinner",
+        "time": "6:00 - 8:00 PM",
+        "description": "Nutritious evening meal"
+      },
+      "tips": {
+        "title": "Timing Tips",
+        "tip1": "Eat every 3-4 hours to maintain stable blood sugar",
+        "tip2": "Have your largest meal during the most active part of your day",
+        "tip3": "Stop eating 2-3 hours before bedtime for better sleep"
+      }
+    },
+    "shopping": {
+      "title": "Smart Shopping Recommendations",
+      "subtitle": "Personalized shopping list and store suggestions",
+      "groceryStores": {
+        "title": "Nearest Grocery Stores",
+        "stores": {
+          "wholefoods": {
+            "name": "Whole Foods Market",
+            "distance": "0.8 miles away",
+            "features": "Organic produce, Premium quality, Health-focused"
+          },
+          "safeway": {
+            "name": "Safeway",
+            "distance": "1.2 miles away", 
+            "features": "Great deals, Wide selection, Fresh bakery"
+          },
+          "traderjoes": {
+            "name": "Trader Joe's",
+            "distance": "1.5 miles away",
+            "features": "Unique products, Affordable prices, Friendly service"
+          }
+        },
+        "rating": "Rating"
+      },
+      "shoppingList": {
+        "title": "Your Shopping List",
+        "produce": {
+          "title": "Fresh Produce",
+          "items": [
+            "Avocados (2-3 pieces)",
+            "Bananas (1 bunch)",
+            "Spinach (1 bag)",
+            "Broccoli (1 head)",
+            "Bell peppers (3 pieces)"
+          ]
+        },
+        "proteins": {
+          "title": "Proteins",
+          "items": [
+            "Salmon fillets (1 lb)",
+            "Greek yogurt (32 oz)",
+            "Eggs (1 dozen)",
+            "Chicken breast (1 lb)",
+            "Tofu (1 block)"
+          ]
+        },
+        "pantry": {
+          "title": "Pantry Items", 
+          "items": [
+            "Quinoa (1 bag)",
+            "Brown rice (2 lbs)",
+            "Olive oil",
+            "Almonds (1 bag)",
+            "Lentils (1 bag)"
+          ]
+        }
+      }
+    }
+  },
+  "homepage": {
+    "hero": {
+      "title": "Turn Your Ingredients Into",
+      "titleHighlight": "Delicious Recipes",
+      "subtitle": "Upload your ingredients and let AI create personalized recipes, meal plans, and shopping lists. Smart cooking made simple.",
+      "getStartedButton": "Get Started Free",
+      "viewSampleButton": "View Sample Recipe"
+    },
+    "features": {
+      "title": "Everything You Need for Smart Cooking",
+      "subtitle": "From ingredient upload to PDF export, we've got your culinary journey covered.",
+      "smartInput": {
+        "title": "Smart Ingredient Input",
+        "description": "Upload files (CSV/JSON) or add ingredients manually - choose what works best for you!"
+      },
+      "aiRecipes": {
+        "title": "AI-Powered Recipes",
+        "description": "Generate personalized recipes and meal plans tailored to your available ingredients."
+      },
+      "mealPlanning": {
+        "title": "Meal Planning",
+        "description": "Create comprehensive 3-day meal plans with perfectly balanced nutrition."
+      },
+      "shoppingLists": {
+        "title": "Smart Shopping Lists",
+        "description": "Automatically generate organized shopping lists categorized by store sections."
+      },
+      "pdfExport": {
+        "title": "PDF Export",
+        "description": "Export everything to beautiful PDFs - recipes, nutrition info, and shopping lists."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Three simple steps to transform your cooking experience",
+      "step1": {
+        "title": "Upload Ingredients",
+        "description": "Add your available ingredients via CSV, JSON, or manual input"
+      },
+      "step2": {
+        "title": "AI Generation",
+        "description": "Our AI creates personalized recipes and meal plans just for you"
+      },
+      "step3": {
+        "title": "Cook & Enjoy",
+        "description": "Follow the recipes and export everything to PDF for easy reference"
+      }
+    },
+    "testimonials": {
+      "title": "What Our Users Say",
+      "subtitle": "Join thousands of satisfied home cooks",
+      "sarah": {
+        "name": "Sarah Chen",
+        "role": "Home Chef",
+        "content": "This app has revolutionized my meal planning! No more food waste, and I discover amazing new recipes every week."
+      },
+      "mike": {
+        "name": "Mike Rodriguez",
+        "role": "Busy Professional",
+        "content": "Perfect for my hectic schedule. I just upload what's in my fridge and get instant meal ideas."
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Cooking?",
+      "subtitle": "Start creating amazing recipes with the ingredients you already have.",
+      "button": "Start Cooking Smarter Today"
+    },
+    "sampleRecipe": {
+      "name": "Mediterranean Chickpea Salad",
+      "description": "A fresh and vibrant salad perfect for lunch or dinner",
+      "prepTime": "15 minutes",
+      "servings": "servings",
+      "ingredients": "Ingredients",
+      "instructions": "Instructions",
+      "nutrition": "Nutrition Information",
+      "ingredientsList": [
+        "2 cans chickpeas, drained and rinsed",
+        "1 cucumber, diced",
+        "2 tomatoes, chopped",
+        "1/2 red onion, thinly sliced",
+        "1/2 cup olives, pitted",
+        "1/4 cup feta cheese, crumbled",
+        "3 tbsp olive oil",
+        "2 tbsp lemon juice",
+        "1 tsp dried oregano",
+        "Salt and pepper to taste"
+      ],
+      "instructionsList": [
+        "In a large bowl, combine chickpeas, cucumber, tomatoes, and red onion.",
+        "Add olives and feta cheese to the mixture.",
+        "In a small bowl, whisk together olive oil, lemon juice, oregano, salt, and pepper.",
+        "Pour the dressing over the salad and toss to combine.",
+        "Let sit for 10 minutes to allow flavors to meld.",
+        "Serve chilled or at room temperature."
+      ]
+    }
+  },
+  "forms": {
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "age": "Age",
+      "height": "Height",
+      "weight": "Weight",
+      "gender": "Gender",
+      "activityLevel": "Activity Level",
+      "fitnessGoal": "Fitness Goal",
+      "dietaryRestrictions": "Dietary Restrictions",
+      "healthConditions": "Health Conditions",
+      "numberOfMeals": "Number of Meals per Day",
+      "wakeUpTime": "Wake Up Time",
+      "bedTime": "Bed Time",
+      "welcomeBack": "Welcome Back",
+      "createAccount": "Create Account",
+      "noAccount": "Don't have an account?",
+      "haveAccount": "Already have an account?"
+    },
+    "placeholders": {
+      "enterName": "Enter your name",
+      "enterEmail": "Enter your email",
+      "enterPassword": "Enter your password",
+      "confirmPassword": "Confirm your password",
+      "selectAge": "Select your age",
+      "enterHeight": "Enter your height",
+      "enterWeight": "Enter your weight",
+      "selectGender": "Select your gender",
+      "selectActivity": "Select activity level",
+      "selectGoal": "Select fitness goal",
+      "selectRestrictions": "Select dietary restrictions",
+      "selectConditions": "Select health conditions",
+      "selectMeals": "Select number of meals",
+      "selectWakeTime": "Select wake up time",
+      "selectBedTime": "Select bed time"
+    },
+    "buttons": {
+      "submit": "Submit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add",
+      "update": "Update",
+      "create": "Create",
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "invalidNumber": "Please enter a valid number",
+      "selectOption": "Please select an option"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "upload": "Upload",
+    "recipes": "Recipes",
+    "shopping": "Shopping",
+    "health": "Health",
+    "admin": "Admin",
+    "export": "Export",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "admin": {
+    "foodCategories": {
+      "title": "Food Category Management",
+      "subtitle": "Manage food categories and products for the recipe system",
+      "addCategory": "Add Category",
+      "addProduct": "Add Product",
+      "editCategory": "Edit Category",
+      "deleteCategory": "Delete Category",
+      "categories": "Categories",
+      "products": "Products",
+      "custom": "Custom",
+      "resetToDefaults": "Reset to Defaults",
+      "clearAll": "Clear All",
+      "noProductsYet": "No products yet",
+      "addFirstProduct": "Add First Product",
+      "noCategories": "No Categories",
+      "getStartedMessage": "Get started by adding your first food category"
+    },
+    "categoryModal": {
+      "addTitle": "Add New Category",
+      "editTitle": "Edit Category",
+      "addDescription": "Create a new food category with an icon and description.",
+      "editDescription": "Update the category details below.",
+      "categoryIcon": "Category Icon",
+      "categoryName": "Category Name",
+      "description": "Description (Optional)",
+      "preview": "Preview",
+      "updateCategory": "Update Category",
+      "categoryNamePlaceholder": "e.g., Fresh Produce",
+      "descriptionPlaceholder": "Brief description of this category..."
+    },
+    "productModal": {
+      "title": "Add Product to",
+      "description": "Add a new food product to the category.",
+      "productName": "Product Name",
+      "productDescription": "Description (Optional)",
+      "nutritionInfo": "Nutrition Information (Per 100g)",
+      "allFieldsOptional": "All fields are optional",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbohydrates": "Carbohydrates",
+      "fat": "Fat",
+      "fiber": "Fiber",
+      "productNamePlaceholder": "e.g., Organic Chicken Breast",
+      "productDescriptionPlaceholder": "Brief description of the product...",
+      "caloriesPerHundredG": "calories per 100g",
+      "adding": "Adding...",
+      "addProduct": "Add Product"
+    },
+    "messages": {
+      "categoryDeleted": "Category Deleted",
+      "categoryDeletedDesc": "has been removed.",
+      "productDeleted": "Product Deleted",
+      "productDeletedDesc": "has been removed.",
+      "resetComplete": "Reset Complete",
+      "resetCompleteDesc": "Categories have been reset to defaults.",
+      "allCategoriesCleared": "All Categories Cleared",
+      "allCategoriesClearedDesc": "All categories and products have been deleted.",
+      "categoryUpdated": "Category Updated",
+      "categoryUpdatedDesc": "has been updated successfully.",
+      "categoryAdded": "Category Added",
+      "categoryAddedDesc": "has been created successfully.",
+      "productAdded": "Product Added",
+      "productAddedDesc": "has been added to",
+      "validationError": "Validation Error",
+      "categoryNameRequired": "Category name is required.",
+      "productNameRequired": "Product name is required.",
+      "noCategorySelected": "No category selected.",
+      "errorSaving": "Failed to save. Please try again.",
+      "errorAdding": "Failed to add product. Please try again."
+    }
+  },
+  "messages": {
+    "success": {
+      "saved": "Successfully saved!",
+      "updated": "Successfully updated!",
+      "created": "Successfully created!",
+      "deleted": "Successfully deleted!",
+      "loggedIn": "Successfully logged in!",
+      "loggedOut": "Successfully logged out!",
+      "registered": "Account created successfully!"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "networkError": "Network error. Please check your connection.",
+      "unauthorized": "You are not authorized to perform this action.",
+      "notFound": "The requested resource was not found.",
+      "serverError": "Server error. Please try again later.",
+      "validationError": "Please check your input and try again."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "finish": "Finish",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "download": "Download",
+    "upload": "Upload",
+    "share": "Share",
+    "copy": "Copy",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "add": "Add",
+    "remove": "Remove",
+    "select": "Select",
+    "clear": "Clear",
+    "reset": "Reset",
+    "refresh": "Refresh",
+    "more": "More",
+    "less": "Less",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "readMore": "Read More",
+    "readLess": "Read Less"
+  },
+  "profile": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "premiumChef": "Premium Chef",
+    "menu": {
+      "settings": "Profile Settings",
+      "manageAccount": "Manage your account",
+      "preferences": "Preferences",
+      "customize": "Customize your experience",
+      "seeYouSoon": "See you soon!"
+    },
+    "description": "Manage your account information and security settings",
+    "tabs": {
+      "info": "Profile Info",
+      "security": "Security"
+    },
+    "labels": {
+      "currentPassword": "Current Password",
+      "newPassword": "New Password"
+    },
+    "placeholders": {
+      "currentPassword": "Enter your current password",
+      "newPassword": "Enter your new password"
+    },
+    "buttons": {
+      "changePassword": "Change Password"
+    },
+    "validation": {
+      "nameTooShort": "Name must be at least 2 characters",
+      "confirmPasswordRequired": "Please confirm your new password",
+      "passwordMustBeDifferent": "New password must be different from current password"
+    },
+    "messages": {
+      "profileUpdated": "Your profile information has been updated successfully.",
+      "profileUpdateFailed": "Failed to update profile",
+      "passwordChanged": "Your password has been updated successfully."
+    }
+  }
+}

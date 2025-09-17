@@ -1,0 +1,483 @@
+{
+  "dashboard": {
+    "title": "¡Bienvenido de vuelta!",
+    "subtitle": "Tu Panel de Nutrición Personalizado",
+    "tabs": {
+      "meals": "Comidas",
+      "timing": "Horarios",
+      "shopping": "Compras"
+    },
+    "meals": {
+      "title": "Plan de Comidas Personalizado de Hoy",
+      "subtitle": "Personalizado para tus objetivos nutricionales y preferencias",
+      "generateButton": "Generar Comidas Personalizadas",
+      "breakfast": "Desayuno",
+      "lunch": "Almuerzo",
+      "dinner": "Cena",
+      "calories": "calorías",
+      "protein": "proteínas",
+      "carbs": "carbohidratos",
+      "fat": "grasas",
+      "grams": "g",
+      "loading": "Generando tu plan de comidas personalizado...",
+      "recipeList": {
+        "breakfast": {
+          "avocadoToast": "Tostada de Aguacate con Huevo Escalfado",
+          "greekYogurt": "Yogur Griego con Bayas y Nueces",
+          "oatmeal": "Avena Integral con Plátano y Almendras"
+        },
+        "lunch": {
+          "quinoaSalad": "Ensalada de Quinoa Mediterránea",
+          "chickenWrap": "Wrap de Pollo a la Parrilla con Verduras",
+          "lentilSoup": "Sopa Abundante de Lentejas y Verduras"
+        },
+        "dinner": {
+          "salmonRice": "Salmón al Horno con Arroz Integral",
+          "stirfry": "Salteado de Tofu y Verduras",
+          "chickenBroccoli": "Pollo con Hierbas y Brócoli"
+        }
+      }
+    },
+    "timing": {
+      "title": "Horario Óptimo de Comidas",
+      "subtitle": "Horario de alimentación recomendado según tus objetivos",
+      "breakfast": {
+        "title": "Desayuno",
+        "time": "7:00 - 9:00 AM",
+        "description": "Comienza tu día con nutrición equilibrada"
+      },
+      "morningSnack": {
+        "title": "Refrigerio Matutino",
+        "time": "10:00 - 11:00 AM",
+        "description": "Refrigerio ligero para mantener la energía"
+      },
+      "lunch": {
+        "title": "Almuerzo",
+        "time": "12:00 - 2:00 PM",
+        "description": "Comida equilibrada de mediodía"
+      },
+      "afternoonSnack": {
+        "title": "Refrigerio Vespertino",
+        "time": "3:00 - 4:00 PM",
+        "description": "Refrigerio saludable para evitar la somnolencia vespertina"
+      },
+      "dinner": {
+        "title": "Cena",
+        "time": "6:00 - 8:00 PM",
+        "description": "Cena nutritiva"
+      },
+      "tips": {
+        "title": "Consejos de Horarios",
+        "tip1": "Come cada 3-4 horas para mantener el azúcar en sangre estable",
+        "tip2": "Haz tu comida más grande durante la parte más activa del día",
+        "tip3": "Deja de comer 2-3 horas antes de acostarte para dormir mejor"
+      }
+    },
+    "shopping": {
+      "title": "Recomendaciones Inteligentes de Compras",
+      "subtitle": "Lista de compras personalizada y sugerencias de tiendas",
+      "groceryStores": {
+        "title": "Supermercados Más Cercanos",
+        "stores": {
+          "wholefoods": {
+            "name": "Whole Foods Market",
+            "distance": "1.3 km de distancia",
+            "features": "Productos orgánicos, Calidad premium, Enfoque en salud"
+          },
+          "safeway": {
+            "name": "Safeway",
+            "distance": "1.9 km de distancia",
+            "features": "Grandes ofertas, Amplia selección, Panadería fresca"
+          },
+          "traderjoes": {
+            "name": "Trader Joe's",
+            "distance": "2.4 km de distancia",
+            "features": "Productos únicos, Precios accesibles, Servicio amigable"
+          }
+        },
+        "rating": "Calificación"
+      },
+      "shoppingList": {
+        "title": "Tu Lista de Compras",
+        "produce": {
+          "title": "Productos Frescos",
+          "items": [
+            "Aguacates (2-3 piezas)",
+            "Plátanos (1 racimo)",
+            "Espinacas (1 bolsa)",
+            "Brócoli (1 cabeza)",
+            "Pimientos (3 piezas)"
+          ]
+        },
+        "proteins": {
+          "title": "Proteínas",
+          "items": [
+            "Filetes de salmón (450g)",
+            "Yogur griego (900g)",
+            "Huevos (1 docena)",
+            "Pechuga de pollo (450g)",
+            "Tofu (1 bloque)"
+          ]
+        },
+        "pantry": {
+          "title": "Despensa",
+          "items": [
+            "Quinoa (1 bolsa)",
+            "Arroz integral (900g)",
+            "Aceite de oliva",
+            "Almendras (1 bolsa)",
+            "Lentejas (1 bolsa)"
+          ]
+        }
+      }
+    }
+  },
+  "homepage": {
+    "hero": {
+      "title": "Convierte Tus Ingredientes En",
+      "titleHighlight": "Recetas Deliciosas",
+      "subtitle": "Sube tus ingredientes y deja que la IA cree recetas personalizadas, planes de comida y listas de compras. Cocinar inteligente hecho simple.",
+      "getStartedButton": "Empezar Gratis",
+      "viewSampleButton": "Ver Receta de Ejemplo"
+    },
+    "features": {
+      "title": "Todo lo que Necesitas para Cocinar Inteligente",
+      "subtitle": "Desde subir ingredientes hasta exportar PDFs, cubrimos todo tu viaje culinario.",
+      "smartInput": {
+        "title": "Entrada Inteligente de Ingredientes",
+        "description": "Sube archivos (CSV/JSON) o agrega ingredientes manualmente - ¡elige lo que mejor funcione para ti!"
+      },
+      "aiRecipes": {
+        "title": "Recetas con IA",
+        "description": "Genera recetas personalizadas y planes de comida adaptados a tus ingredientes disponibles."
+      },
+      "mealPlanning": {
+        "title": "Planificación de Comidas",
+        "description": "Crea planes de comidas integrales de 3 días con nutrición perfectamente equilibrada."
+      },
+      "shoppingLists": {
+        "title": "Listas de Compras Inteligentes",
+        "description": "Genera automáticamente listas de compras organizadas categorizadas por secciones de tienda."
+      },
+      "pdfExport": {
+        "title": "Exportar PDF",
+        "description": "Exporta todo a hermosos PDFs - recetas, información nutricional y listas de compras."
+      }
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "subtitle": "Tres simples pasos para transformar tu experiencia culinaria",
+      "step1": {
+        "title": "Sube Ingredientes",
+        "description": "Agrega tus ingredientes disponibles via CSV, JSON, o entrada manual"
+      },
+      "step2": {
+        "title": "Generación IA",
+        "description": "Nuestra IA crea recetas personalizadas y planes de comida solo para ti"
+      },
+      "step3": {
+        "title": "Cocina y Disfruta",
+        "description": "Sigue las recetas y exporta todo a PDF para referencia fácil"
+      }
+    },
+    "testimonials": {
+      "title": "Lo que Dicen Nuestros Usuarios",
+      "subtitle": "Únete a miles de cocineros caseros satisfechos",
+      "sarah": {
+        "name": "Sarah Chen",
+        "role": "Chef Casera",
+        "content": "¡Esta app ha revolucionado mi planificación de comidas! No más desperdicios de comida, y descubro recetas increíbles cada semana."
+      },
+      "mike": {
+        "name": "Mike Rodriguez",
+        "role": "Profesional Ocupado",
+        "content": "Perfecto para mi horario agitado. Solo subo lo que hay en mi refrigerador y obtengo ideas de comida al instante."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Transformar tu Cocina?",
+      "subtitle": "Comienza a crear recetas increíbles con los ingredientes que ya tienes.",
+      "button": "Empezar a Cocinar Más Inteligente Hoy"
+    },
+    "sampleRecipe": {
+      "name": "Ensalada Mediterránea de Garbanzos",
+      "description": "Una ensalada fresca y vibrante perfecta para almuerzo o cena",
+      "prepTime": "15 minutos",
+      "servings": "porciones",
+      "ingredients": "Ingredientes",
+      "instructions": "Instrucciones",
+      "nutrition": "Información Nutricional",
+      "ingredientsList": [
+        "2 latas de garbanzos, escurridos y enjuagados",
+        "1 pepino, cortado en cubitos",
+        "2 tomates, picados",
+        "1/2 cebolla roja, finamente rebanada",
+        "1/2 taza de aceitunas, sin hueso",
+        "1/4 taza de queso feta, desmenuzado",
+        "3 cucharadas de aceite de oliva",
+        "2 cucharadas de jugo de limón",
+        "1 cucharadita de orégano seco",
+        "Sal y pimienta al gusto"
+      ],
+      "instructionsList": [
+        "En un tazón grande, combina garbanzos, pepino, tomates y cebolla roja.",
+        "Agrega aceitunas y queso feta a la mezcla.",
+        "En un tazón pequeño, bate aceite de oliva, jugo de limón, orégano, sal y pimienta.",
+        "Vierte el aderezo sobre la ensalada y mezcla para combinar.",
+        "Deja reposar 10 minutos para permitir que los sabores se mezclen.",
+        "Sirve frío o a temperatura ambiente."
+      ]
+    }
+  },
+  "forms": {
+    "labels": {
+      "name": "Nombre",
+      "email": "Correo",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "age": "Edad",
+      "height": "Altura",
+      "weight": "Peso",
+      "gender": "Género",
+      "activityLevel": "Nivel de Actividad",
+      "fitnessGoal": "Objetivo de Fitness",
+      "dietaryRestrictions": "Restricciones Dietéticas",
+      "healthConditions": "Condiciones de Salud",
+      "numberOfMeals": "Número de comidas por día",
+      "wakeUpTime": "Hora de despertar",
+      "bedTime": "Hora de dormir",
+      "welcomeBack": "Bienvenido de vuelta",
+      "createAccount": "Crear cuenta",
+      "noAccount": "¿No tienes cuenta?",
+      "haveAccount": "¿Ya tienes cuenta?"
+    },
+    "placeholders": {
+      "enterName": "Ingresa tu nombre",
+      "enterEmail": "Ingresa tu correo",
+      "enterPassword": "Ingresa tu contraseña",
+      "confirmPassword": "Confirma tu contraseña",
+      "selectAge": "Selecciona tu edad",
+      "enterHeight": "Ingresa tu altura",
+      "enterWeight": "Ingresa tu peso",
+      "selectGender": "Selecciona tu género",
+      "selectActivity": "Selecciona nivel de actividad",
+      "selectGoal": "Selecciona objetivo fitness",
+      "selectRestrictions": "Selecciona restricciones dietéticas",
+      "selectConditions": "Selecciona condiciones de salud",
+      "selectMeals": "Selecciona número de comidas",
+      "selectWakeTime": "Selecciona hora de despertar",
+      "selectBedTime": "Selecciona hora de dormir"
+    },
+    "buttons": {
+      "submit": "Enviar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "add": "Agregar",
+      "update": "Actualizar",
+      "create": "Crear",
+      "login": "Iniciar Sesión",
+      "register": "Registrarse",
+      "logout": "Cerrar Sesión"
+    },
+    "validation": {
+      "required": "Este campo es requerido",
+      "invalidEmail": "Por favor ingresa un correo válido",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
+      "invalidNumber": "Por favor ingresa un número válido",
+      "selectOption": "Por favor selecciona una opción"
+    }
+  },
+  "navigation": {
+    "home": "Inicio",
+    "upload": "Subir",
+    "recipes": "Recetas",
+    "shopping": "Compras",
+    "health": "Salud",
+    "admin": "Admin",
+    "export": "Exportar",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "help": "Ayuda",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio"
+  },
+  "admin": {
+    "foodCategories": {
+      "title": "Gestión de Categorías de Alimentos",
+      "subtitle": "Administrar categorías de alimentos y productos para el sistema de recetas",
+      "addCategory": "Agregar Categoría",
+      "addProduct": "Agregar Producto",
+      "editCategory": "Editar Categoría",
+      "deleteCategory": "Eliminar Categoría",
+      "categories": "Categorías",
+      "products": "Productos",
+      "custom": "Personalizado",
+      "resetToDefaults": "Restablecer por Defecto",
+      "clearAll": "Limpiar Todo",
+      "noProductsYet": "Aún no hay productos",
+      "addFirstProduct": "Agregar Primer Producto",
+      "noCategories": "Sin Categorías",
+      "getStartedMessage": "Comience agregando su primera categoría de alimentos"
+    },
+    "categoryModal": {
+      "addTitle": "Agregar Nueva Categoría",
+      "editTitle": "Editar Categoría",
+      "addDescription": "Crear una nueva categoría de alimentos con un ícono y descripción.",
+      "editDescription": "Actualizar los detalles de la categoría a continuación.",
+      "categoryIcon": "Ícono de Categoría",
+      "categoryName": "Nombre de Categoría",
+      "description": "Descripción (Opcional)",
+      "preview": "Vista Previa",
+      "updateCategory": "Actualizar Categoría",
+      "categoryNamePlaceholder": "ej., Productos Frescos",
+      "descriptionPlaceholder": "Breve descripción de esta categoría..."
+    },
+    "productModal": {
+      "title": "Agregar Producto a",
+      "description": "Agregar un nuevo producto alimentario a la categoría.",
+      "productName": "Nombre del Producto",
+      "productDescription": "Descripción (Opcional)",
+      "nutritionInfo": "Información Nutricional (Por 100g)",
+      "allFieldsOptional": "Todos los campos son opcionales",
+      "calories": "Calorías",
+      "protein": "Proteína",
+      "carbohydrates": "Carbohidratos",
+      "fat": "Grasa",
+      "fiber": "Fibra",
+      "productNamePlaceholder": "ej., Pechuga de Pollo Orgánica",
+      "productDescriptionPlaceholder": "Breve descripción del producto...",
+      "caloriesPerHundredG": "calorías por 100g",
+      "adding": "Agregando...",
+      "addProduct": "Agregar Producto"
+    },
+    "messages": {
+      "categoryDeleted": "Categoría Eliminada",
+      "categoryDeletedDesc": "ha sido eliminada.",
+      "productDeleted": "Producto Eliminado",
+      "productDeletedDesc": "ha sido eliminado.",
+      "resetComplete": "Restablecimiento Completo",
+      "resetCompleteDesc": "Las categorías han sido restablecidas por defecto.",
+      "allCategoriesCleared": "Todas las Categorías Eliminadas",
+      "allCategoriesClearedDesc": "Todas las categorías y productos han sido eliminados.",
+      "categoryUpdated": "Categoría Actualizada",
+      "categoryUpdatedDesc": "ha sido actualizada exitosamente.",
+      "categoryAdded": "Categoría Agregada",
+      "categoryAddedDesc": "ha sido creada exitosamente.",
+      "productAdded": "Producto Agregado",
+      "productAddedDesc": "ha sido agregado a",
+      "validationError": "Error de Validación",
+      "categoryNameRequired": "El nombre de la categoría es requerido.",
+      "productNameRequired": "El nombre del producto es requerido.",
+      "noCategorySelected": "No se ha seleccionado categoría.",
+      "errorSaving": "Error al guardar. Por favor intente de nuevo.",
+      "errorAdding": "Error al agregar producto. Por favor intente de nuevo."
+    }
+  },
+  "messages": {
+    "success": {
+      "saved": "¡Guardado exitosamente!",
+      "updated": "¡Actualizado exitosamente!",
+      "created": "¡Creado exitosamente!",
+      "deleted": "¡Eliminado exitosamente!",
+      "loggedIn": "¡Sesión iniciada exitosamente!",
+      "loggedOut": "¡Sesión cerrada exitosamente!",
+      "registered": "¡Cuenta creada exitosamente!"
+    },
+    "errors": {
+      "generic": "Algo salió mal. Por favor intenta de nuevo.",
+      "networkError": "Error de red. Por favor verifica tu conexión.",
+      "unauthorized": "No estás autorizado para realizar esta acción.",
+      "notFound": "El recurso solicitado no fue encontrado.",
+      "serverError": "Error del servidor. Por favor intenta más tarde.",
+      "validationError": "Por favor verifica tu entrada e intenta de nuevo."
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "retry": "Reintentar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "continue": "Continuar",
+    "finish": "Terminar",
+    "yes": "Sí",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirmar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "export": "Exportar",
+    "import": "Importar",
+    "download": "Descargar",
+    "upload": "Subir",
+    "share": "Compartir",
+    "copy": "Copiar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "add": "Agregar",
+    "remove": "Quitar",
+    "select": "Seleccionar",
+    "clear": "Limpiar",
+    "reset": "Reiniciar",
+    "refresh": "Actualizar",
+    "more": "Más",
+    "less": "Menos",
+    "showMore": "Mostrar Más",
+    "showLess": "Mostrar Menos",
+    "readMore": "Leer Más",
+    "readLess": "Leer Menos"
+  },
+  "profile": {
+    "greeting": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    },
+    "premiumChef": "Chef Premium",
+    "menu": {
+      "settings": "Configuración de Perfil",
+      "manageAccount": "Gestiona tu cuenta",
+      "preferences": "Preferencias",
+      "customize": "Personaliza tu experiencia",
+      "seeYouSoon": "¡Nos vemos pronto!"
+    },
+    "description": "Gestiona la información de tu cuenta y configuración de seguridad",
+    "tabs": {
+      "info": "Información de Perfil",
+      "security": "Seguridad"
+    },
+    "labels": {
+      "currentPassword": "Contraseña Actual",
+      "newPassword": "Nueva Contraseña"
+    },
+    "placeholders": {
+      "currentPassword": "Ingresa tu contraseña actual",
+      "newPassword": "Ingresa tu nueva contraseña"
+    },
+    "buttons": {
+      "changePassword": "Cambiar Contraseña"
+    },
+    "validation": {
+      "nameTooShort": "El nombre debe tener al menos 2 caracteres",
+      "confirmPasswordRequired": "Por favor confirma tu nueva contraseña",
+      "passwordMustBeDifferent": "La nueva contraseña debe ser diferente a la actual"
+    },
+    "messages": {
+      "profileUpdated": "Tu información de perfil ha sido actualizada exitosamente.",
+      "profileUpdateFailed": "Error al actualizar el perfil",
+      "passwordChanged": "Tu contraseña ha sido actualizada exitosamente."
+    }
+  }
+}

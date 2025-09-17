@@ -1,0 +1,411 @@
+{
+  "dashboard": {
+    "title": "Bon retour !",
+    "subtitle": "Votre Tableau de Bord Nutrition Personnalisé",
+    "tabs": {
+      "meals": "Repas",
+      "timing": "Horaires",
+      "shopping": "Courses"
+    },
+    "meals": {
+      "title": "Plan de Repas Personnalisé d'Aujourd'hui",
+      "subtitle": "Personnalisé selon vos objectifs nutritionnels et préférences",
+      "generateButton": "Générer des Repas Personnalisés",
+      "breakfast": "Petit-déjeuner",
+      "lunch": "Déjeuner",
+      "dinner": "Dîner",
+      "calories": "calories",
+      "protein": "protéines",
+      "carbs": "glucides",
+      "fat": "lipides",
+      "grams": "g",
+      "loading": "Génération de votre plan de repas personnalisé...",
+      "recipeList": {
+        "breakfast": {
+          "avocadoToast": "Toast à l'Avocat avec Œuf Poché",
+          "greekYogurt": "Yaourt Grec aux Baies et Noix",
+          "oatmeal": "Porridge d'Avoine avec Banane et Amandes"
+        },
+        "lunch": {
+          "quinoaSalad": "Salade de Quinoa Méditerranéenne",
+          "chickenWrap": "Wrap au Poulet Grillé et Légumes",
+          "lentilSoup": "Soupe Consistante aux Lentilles et Légumes"
+        },
+        "dinner": {
+          "salmonRice": "Saumon au Four avec Riz Complet",
+          "stirfry": "Sauté de Tofu et Légumes",
+          "chickenBroccoli": "Poulet aux Herbes avec Brocolis"
+        }
+      }
+    },
+    "timing": {
+      "title": "Horaires Optimaux des Repas",
+      "subtitle": "Planning d'alimentation recommandé selon vos objectifs",
+      "breakfast": {
+        "title": "Petit-déjeuner",
+        "time": "7h00 - 9h00",
+        "description": "Commencez votre journée avec une nutrition équilibrée"
+      },
+      "morningSnack": {
+        "title": "Collation Matinale",
+        "time": "10h00 - 11h00",
+        "description": "Collation légère pour maintenir l'énergie"
+      },
+      "lunch": {
+        "title": "Déjeuner",
+        "time": "12h00 - 14h00",
+        "description": "Repas équilibré de midi"
+      },
+      "afternoonSnack": {
+        "title": "Collation de l'Après-midi",
+        "time": "15h00 - 16h00",
+        "description": "Collation saine pour éviter la baisse d'énergie"
+      },
+      "dinner": {
+        "title": "Dîner",
+        "time": "18h00 - 20h00",
+        "description": "Repas nutritif du soir"
+      },
+      "tips": {
+        "title": "Conseils d'Horaires",
+        "tip1": "Mangez toutes les 3-4 heures pour maintenir une glycémie stable",
+        "tip2": "Prenez votre plus gros repas pendant la partie la plus active de votre journée",
+        "tip3": "Arrêtez de manger 2-3 heures avant le coucher pour mieux dormir"
+      }
+    },
+    "shopping": {
+      "title": "Recommandations d'Achats Intelligentes",
+      "subtitle": "Liste de courses personnalisée et suggestions de magasins",
+      "groceryStores": {
+        "title": "Supermarchés les Plus Proches",
+        "stores": {
+          "wholefoods": {
+            "name": "Whole Foods Market",
+            "distance": "1,3 km",
+            "features": "Produits biologiques, Qualité premium, Axé sur la santé"
+          },
+          "safeway": {
+            "name": "Safeway",
+            "distance": "1,9 km",
+            "features": "Bonnes affaires, Large sélection, Boulangerie fraîche"
+          },
+          "traderjoes": {
+            "name": "Trader Joe's",
+            "distance": "2,4 km",
+            "features": "Produits uniques, Prix abordables, Service amical"
+          }
+        },
+        "rating": "Note"
+      },
+      "shoppingList": {
+        "title": "Votre Liste de Courses",
+        "produce": {
+          "title": "Produits Frais",
+          "items": [
+            "Avocats (2-3 pièces)",
+            "Bananes (1 régime)",
+            "Épinards (1 sachet)",
+            "Brocolis (1 tête)",
+            "Poivrons (3 pièces)"
+          ]
+        },
+        "proteins": {
+          "title": "Protéines",
+          "items": [
+            "Filets de saumon (450g)",
+            "Yaourt grec (900g)",
+            "Œufs (1 douzaine)",
+            "Blanc de poulet (450g)",
+            "Tofu (1 bloc)"
+          ]
+        },
+        "pantry": {
+          "title": "Garde-manger",
+          "items": [
+            "Quinoa (1 sachet)",
+            "Riz complet (900g)",
+            "Huile d'olive",
+            "Amandes (1 sachet)",
+            "Lentilles (1 sachet)"
+          ]
+        }
+      }
+    }
+  },
+  "homepage": {
+    "hero": {
+      "title": "Transformez Vos Ingrédients En",
+      "titleHighlight": "Recettes Délicieuses",
+      "subtitle": "Téléchargez vos ingrédients et laissez l'IA créer des recettes personnalisées, des plans de repas et des listes de courses. La cuisine intelligente rendue simple.",
+      "getStartedButton": "Commencer Gratuitement",
+      "viewSampleButton": "Voir un Exemple de Recette"
+    },
+    "features": {
+      "title": "Tout ce dont Vous Avez Besoin pour Cuisiner Intelligemment",
+      "subtitle": "Du téléchargement d'ingrédients à l'exportation PDF, nous couvrons tout votre parcours culinaire.",
+      "smartInput": {
+        "title": "Entrée Intelligente d'Ingrédients",
+        "description": "Téléchargez des fichiers (CSV/JSON) ou ajoutez des ingrédients manuellement - choisissez ce qui fonctionne le mieux pour vous !"
+      },
+      "aiRecipes": {
+        "title": "Recettes Powered par IA",
+        "description": "Générez des recettes personnalisées et des plans de repas adaptés à vos ingrédients disponibles."
+      },
+      "mealPlanning": {
+        "title": "Planification des Repas",
+        "description": "Créez des plans de repas complets de 3 jours avec une nutrition parfaitement équilibrée."
+      },
+      "shoppingLists": {
+        "title": "Listes de Courses Intelligentes",
+        "description": "Générez automatiquement des listes de courses organisées catégorisées par sections de magasin."
+      },
+      "pdfExport": {
+        "title": "Export PDF",
+        "description": "Exportez tout vers de beaux PDFs - recettes, informations nutritionnelles et listes de courses."
+      }
+    },
+    "howItWorks": {
+      "title": "Comment Ça Marche",
+      "subtitle": "Trois étapes simples pour transformer votre expérience culinaire",
+      "step1": {
+        "title": "Télécharger les Ingrédients",
+        "description": "Ajoutez vos ingrédients disponibles via CSV, JSON, ou saisie manuelle"
+      },
+      "step2": {
+        "title": "Génération IA",
+        "description": "Notre IA crée des recettes personnalisées et des plans de repas juste pour vous"
+      },
+      "step3": {
+        "title": "Cuisinez et Savourez",
+        "description": "Suivez les recettes et exportez tout en PDF pour une référence facile"
+      }
+    },
+    "testimonials": {
+      "title": "Ce que Disent Nos Utilisateurs",
+      "subtitle": "Rejoignez des milliers de cuisiniers à domicile satisfaits",
+      "sarah": {
+        "name": "Sarah Chen",
+        "role": "Chef à Domicile",
+        "content": "Cette application a révolutionné ma planification des repas ! Plus de gaspillage alimentaire, et je découvre d'incroyables nouvelles recettes chaque semaine."
+      },
+      "mike": {
+        "name": "Mike Rodriguez",
+        "role": "Professionnel Occupé",
+        "content": "Parfait pour mon emploi du temps chargé. Je télécharge simplement ce qu'il y a dans mon frigo et j'obtiens des idées de repas instantanées."
+      }
+    },
+    "cta": {
+      "title": "Prêt à Transformer Votre Cuisine ?",
+      "subtitle": "Commencez à créer d'incroyables recettes avec les ingrédients que vous avez déjà.",
+      "button": "Commencer à Cuisiner Plus Intelligemment Aujourd'hui"
+    },
+    "sampleRecipe": {
+      "name": "Salade de Pois Chiches Méditerranéenne",
+      "description": "Une salade fraîche et vibrante parfaite pour le déjeuner ou le dîner",
+      "prepTime": "15 minutes",
+      "servings": "portions",
+      "ingredients": "Ingrédients",
+      "instructions": "Instructions",
+      "nutrition": "Informations Nutritionnelles",
+      "ingredientsList": [
+        "2 boîtes de pois chiches, égouttés et rincés",
+        "1 concombre, coupé en dés",
+        "2 tomates, hachées",
+        "1/2 oignon rouge, finement tranché",
+        "1/2 tasse d'olives, dénoyautées",
+        "1/4 tasse de fromage feta, émietté",
+        "3 cuillères à soupe d'huile d'olive",
+        "2 cuillères à soupe de jus de citron",
+        "1 cuillère à café d'origan séché",
+        "Sel et poivre au goût"
+      ],
+      "instructionsList": [
+        "Dans un grand bol, combinez pois chiches, concombre, tomates et oignon rouge.",
+        "Ajoutez olives et fromage feta au mélange.",
+        "Dans un petit bol, fouettez ensemble huile d'olive, jus de citron, origan, sel et poivre.",
+        "Versez la vinaigrette sur la salade et mélangez pour combiner.",
+        "Laissez reposer 10 minutes pour permettre aux saveurs de se mélanger.",
+        "Servez frais ou à température ambiante."
+      ]
+    }
+  },
+  "forms": {
+    "labels": {
+      "name": "Nom",
+      "email": "Email",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "age": "Âge",
+      "height": "Taille",
+      "weight": "Poids",
+      "gender": "Genre",
+      "activityLevel": "Niveau d'Activité",
+      "fitnessGoal": "Objectif de Fitness",
+      "dietaryRestrictions": "Restrictions Alimentaires",
+      "healthConditions": "Conditions de Santé",
+      "numberOfMeals": "Nombre de repas par jour",
+      "wakeUpTime": "Heure de réveil",
+      "bedTime": "Heure du coucher",
+      "welcomeBack": "Bon retour",
+      "createAccount": "Créer un compte",
+      "noAccount": "Vous n'avez pas de compte?",
+      "haveAccount": "Vous avez déjà un compte?"
+    },
+    "placeholders": {
+      "enterName": "Entrez votre nom",
+      "enterEmail": "Entrez votre email",
+      "enterPassword": "Entrez votre mot de passe",
+      "confirmPassword": "Confirmez votre mot de passe",
+      "selectAge": "Sélectionnez votre âge",
+      "enterHeight": "Entrez votre taille",
+      "enterWeight": "Entrez votre poids",
+      "selectGender": "Sélectionnez votre genre",
+      "selectActivity": "Sélectionnez le niveau d'activité",
+      "selectGoal": "Sélectionnez l'objectif fitness",
+      "selectRestrictions": "Sélectionnez les restrictions alimentaires",
+      "selectConditions": "Sélectionnez les conditions de santé",
+      "selectMeals": "Sélectionnez le nombre de repas",
+      "selectWakeTime": "Sélectionnez l'heure de réveil",
+      "selectBedTime": "Sélectionnez l'heure du coucher"
+    },
+    "buttons": {
+      "submit": "Soumettre",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "add": "Ajouter",
+      "update": "Mettre à jour",
+      "create": "Créer",
+      "login": "Connexion",
+      "register": "S'inscrire",
+      "logout": "Déconnexion"
+    },
+    "validation": {
+      "required": "Ce champ est obligatoire",
+      "invalidEmail": "Veuillez entrer une adresse email valide",
+      "passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères",
+      "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+      "invalidNumber": "Veuillez entrer un nombre valide",
+      "selectOption": "Veuillez sélectionner une option"
+    }
+  },
+  "navigation": {
+    "home": "Accueil",
+    "upload": "Télécharger",
+    "recipes": "Recettes",
+    "shopping": "Shopping",
+    "health": "Santé",
+    "admin": "Admin",
+    "export": "Exporter",
+    "dashboard": "Tableau de Bord",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "help": "Aide",
+    "about": "À Propos",
+    "contact": "Contact",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation"
+  },
+  "messages": {
+    "success": {
+      "saved": "Enregistré avec succès !",
+      "updated": "Mis à jour avec succès !",
+      "created": "Créé avec succès !",
+      "deleted": "Supprimé avec succès !",
+      "loggedIn": "Connecté avec succès !",
+      "loggedOut": "Déconnecté avec succès !",
+      "registered": "Compte créé avec succès !"
+    },
+    "errors": {
+      "generic": "Quelque chose s'est mal passé. Veuillez réessayer.",
+      "networkError": "Erreur réseau. Veuillez vérifier votre connexion.",
+      "unauthorized": "Vous n'êtes pas autorisé à effectuer cette action.",
+      "notFound": "La ressource demandée est introuvable.",
+      "serverError": "Erreur serveur. Veuillez réessayer plus tard.",
+      "validationError": "Veuillez vérifier votre saisie et réessayer."
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "continue": "Continuer",
+    "finish": "Terminer",
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "OK",
+    "confirm": "Confirmer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "export": "Exporter",
+    "import": "Importer",
+    "download": "Télécharger",
+    "upload": "Téléverser",
+    "share": "Partager",
+    "copy": "Copier",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir",
+    "add": "Ajouter",
+    "remove": "Supprimer",
+    "select": "Sélectionner",
+    "clear": "Effacer",
+    "reset": "Réinitialiser",
+    "refresh": "Actualiser",
+    "more": "Plus",
+    "less": "Moins",
+    "showMore": "Afficher Plus",
+    "showLess": "Afficher Moins",
+    "readMore": "Lire Plus",
+    "readLess": "Lire Moins"
+  },
+  "profile": {
+    "greeting": {
+      "morning": "Bonjour",
+      "afternoon": "Bon après-midi",
+      "evening": "Bonsoir"
+    },
+    "premiumChef": "Chef Premium",
+    "menu": {
+      "settings": "Paramètres de Profil",
+      "manageAccount": "Gérez votre compte",
+      "preferences": "Préférences",
+      "customize": "Personnalisez votre expérience",
+      "seeYouSoon": "À bientôt!"
+    },
+    "description": "Gérez les informations de votre compte et les paramètres de sécurité",
+    "tabs": {
+      "info": "Informations de Profil",
+      "security": "Sécurité"
+    },
+    "labels": {
+      "currentPassword": "Mot de Passe Actuel",
+      "newPassword": "Nouveau Mot de Passe"
+    },
+    "placeholders": {
+      "currentPassword": "Entrez votre mot de passe actuel",
+      "newPassword": "Entrez votre nouveau mot de passe"
+    },
+    "buttons": {
+      "changePassword": "Changer le Mot de Passe"
+    },
+    "validation": {
+      "nameTooShort": "Le nom doit contenir au moins 2 caractères",
+      "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+      "passwordMustBeDifferent": "Le nouveau mot de passe doit être différent de l'actuel"
+    },
+    "messages": {
+      "profileUpdated": "Vos informations de profil ont été mises à jour avec succès.",
+      "profileUpdateFailed": "Échec de la mise à jour du profil",
+      "passwordChanged": "Votre mot de passe a été mis à jour avec succès."
+    }
+  }
+}

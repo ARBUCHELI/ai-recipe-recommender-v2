@@ -1,0 +1,46 @@
+{
+  "ingredients": [
+    {
+      "name": "salmon",
+      "quantity": 2,
+      "unit": "fillets",
+      "category": "Meat & Seafood"
+    },
+    {
+      "name": "broccoli",
+      "quantity": 1,
+      "unit": "head",
+      "category": "Produce"
+    },
+    {
+      "name": "quinoa",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Pantry"
+    },
+    {
+      "name": "lemon",
+      "quantity": 1,
+      "unit": "pcs",
+      "category": "Produce"
+    },
+    {
+      "name": "avocado",
+      "quantity": 2,
+      "unit": "pcs",
+      "category": "Produce"
+    },
+    {
+      "name": "cherry tomatoes",
+      "quantity": 200,
+      "unit": "g",
+      "category": "Produce"
+    },
+    {
+      "name": "feta cheese",
+      "quantity": 100,
+      "unit": "g",
+      "category": "Dairy"
+    }
+  ]
+}
