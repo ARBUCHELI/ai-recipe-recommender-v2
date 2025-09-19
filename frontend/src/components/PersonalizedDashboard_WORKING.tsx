@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Clock, ShoppingBag, ChefHat, Calendar, Info } from 'lucide-react';
-import { UserHealthProfile } from '../types/HealthProfile';
+import { UserHealthProfile } from '../types/healthProfile';
 
 interface PersonalizedDashboardProps {
   healthProfile: UserHealthProfile;

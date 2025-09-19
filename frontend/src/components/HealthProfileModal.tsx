@@ -22,7 +22,7 @@ import {
   UpdateHealthProfileRequest,
   HealthProfileResponse,
   UserHealthProfile
-} from '../types/HealthProfile';
+} from '../types/healthProfile';
 import { HealthCalculationService } from '@/services/healthCalculationService';
 
 interface HealthProfileModalProps {

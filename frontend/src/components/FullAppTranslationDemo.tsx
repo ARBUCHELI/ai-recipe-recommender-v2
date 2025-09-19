@@ -3,7 +3,7 @@ import { useTranslation } from '@/contexts/TranslationContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { HomePage } from './HomePage';
 import { PersonalizedDashboard } from './PersonalizedDashboard';
-import { UserHealthProfile } from '../types/HealthProfile';
+import { UserHealthProfile } from '../types/healthProfile';
 
 // Mock health profile for demo purposes
 const mockHealthProfile: UserHealthProfile = {

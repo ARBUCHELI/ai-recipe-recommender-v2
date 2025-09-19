@@ -3,7 +3,7 @@ import {
   MealTimingRecommendation, 
   FoodCategory, 
   ActivityLevel 
-} from '../types/HealthProfile';
+} from '../types/healthProfile';
 
 export class MealTimingService {
   /**

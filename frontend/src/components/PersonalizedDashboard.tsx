@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, ShoppingBag, ChefHat, Calendar, Info, Brain } from 'lucide-react';
-import { UserHealthProfile } from '../types/HealthProfile';
+import { UserHealthProfile } from '../types/healthProfile';
 import { enhancedAIService } from '../services/enhancedAIService';
 import { HealthCalculationService } from '../services/healthCalculationService';
 import { useToast } from '@/hooks/use-toast';

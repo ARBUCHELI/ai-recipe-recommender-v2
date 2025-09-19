@@ -5,7 +5,7 @@ import {
   PersonalizedMealPlan, 
   MealTimingRecommendation,
   ShoppingRecommendations 
-} from '../types/HealthProfile';
+} from '../types/healthProfile';
 import { HealthCalculationService } from '../services/healthCalculationService';
 import { MealTimingService } from '../services/MealTimingService';
 import { useToast } from '@/hooks/use-toast';

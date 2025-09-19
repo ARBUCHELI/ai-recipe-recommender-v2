@@ -1,6 +1,6 @@
 import { recipeService, CreateRecipeData } from '@/services/recipeService';
 import { LocalStorageService } from '@/utils/localStorage';
-import { UserHealthProfile, PersonalizedMealPlan } from '../types/HealthProfile';
+import { UserHealthProfile, PersonalizedMealPlan } from '../types/healthProfile';
 import { HealthCalculationService } from './healthCalculationService';
 
 interface Ingredient {

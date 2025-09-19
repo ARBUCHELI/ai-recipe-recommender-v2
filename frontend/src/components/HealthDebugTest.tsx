@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MealTimingService } from '../services/MealTimingService';
 import { HealthCalculationService } from '../services/healthCalculationService';
-import { ACTIVITY_LEVELS } from '../types/HealthProfile';
+import { ACTIVITY_LEVELS } from '../types/healthProfile';
 
 export const HealthDebugTest: React.FC = () => {
   const [testResults, setTestResults] = useState<any>(null);

@@ -1,0 +1,16 @@
+🔧 MANUAL FIX REQUIRED IN RENDER DASHBOARD
+
+Service: nutriagent-ai-frontend
+Action: Update Build Command
+
+Steps:
+1. Go to Render Dashboard
+2. Click on "nutriagent-ai-frontend" service  
+3. Go to "Settings" tab
+4. Find "Build Command" field
+5. Change from: npm install && npm run build
+6. Change to: yarn build
+7. Click "Save Changes"
+8. Click "Manual Deploy" → "Clear Cache & Deploy"
+
+This manual fix is required because dashboard settings override config files!

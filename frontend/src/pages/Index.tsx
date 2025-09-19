@@ -26,7 +26,7 @@ import { recipeService } from '@/services/recipeService';
 import { ingredientService } from '@/services/ingredientService';
 import { LocalStorageService } from '@/utils/localStorage';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserHealthProfile } from '@/types/HealthProfile';
+import { UserHealthProfile } from '@/types/healthProfile';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<TabType>('home');
