@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 1600,
     // Optimize for production
     target: 'esnext',
-    minify: 'terser',
+    minify: mode === 'production',
     sourcemap: mode === 'development',
   },
   // Environment variables
