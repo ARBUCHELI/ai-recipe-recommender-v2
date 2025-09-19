@@ -1,0 +1,46 @@
+# Render Backend Service Configuration
+# Upload this file when creating the backend service on Render
+
+services:
+  - type: web
+    name: nutriagent-ai-backend
+    env: node
+    region: oregon
+    plan: free
+    branch: main  # or your main branch name
+    rootDir: ./backend
+    buildCommand: |
+      npm install
+      npx prisma generate
+      npm run build
+      npx prisma migrate deploy
+    startCommand: npm start
+    healthCheckPath: /api/health
+    
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        # This will be set automatically by Render when database is linked
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: "7d"
+      - key: FRONTEND_URL
+        value: "https://nutriagent-ai-frontend.onrender.com"
+      - key: MAX_FILE_SIZE
+        value: "5242880"
+      - key: UPLOAD_DIR
+        value: "uploads"
+      - key: GOOGLE_CLIENT_ID
+        # Set manually in Render dashboard
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        # Set manually in Render dashboard
+        sync: false
+
+    # Auto-deploy settings
+    autoDeploy: true

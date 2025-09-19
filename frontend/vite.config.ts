@@ -15,4 +15,24 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-select'],
+          charts: ['recharts'],
+          ai: ['@huggingface/transformers']
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1600,
+    // Optimize for production
+    target: 'esnext',
+    minify: 'terser',
+    sourcemap: mode === 'development',
+  },
+  // Environment variables
+  envPrefix: 'VITE_',
 }));

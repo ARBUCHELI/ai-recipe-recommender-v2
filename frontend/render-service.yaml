@@ -1,0 +1,52 @@
+# Render Frontend Service Configuration
+# Upload this file when creating the frontend static site on Render
+
+services:
+  - type: static
+    name: nutriagent-ai-frontend
+    env: static
+    region: oregon
+    plan: free
+    branch: main  # or your main branch name
+    rootDir: ./frontend
+    buildCommand: |
+      npm install
+      npm run build
+    staticPublishPath: ./dist
+    
+    # Environment variables for build process
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: "https://nutriagent-ai-backend.onrender.com"
+      - key: VITE_GOOGLE_CLIENT_ID
+        # Set manually in Render dashboard
+        sync: false
+      - key: VITE_APP_NAME
+        value: "NutriAgent AI"
+      - key: VITE_APP_VERSION
+        value: "1.0.0"
+      - key: VITE_APP_ENVIRONMENT
+        value: "production"
+      - key: NODE_ENV
+        value: "production"
+    
+    # SPA routing support
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
+    
+    # Auto-deploy settings
+    autoDeploy: true
+    
+    # Headers for security and performance
+    headers:
+      - key: "X-Frame-Options"
+        value: "DENY"
+      - key: "X-Content-Type-Options"
+        value: "nosniff"
+      - key: "Referrer-Policy"
+        value: "strict-origin-when-cross-origin"
+      - key: "Cache-Control"
+        value: "public, max-age=31536000, immutable"
+        path: "/assets/*"

@@ -36,16 +36,35 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // CORS configuration - Allow frontend to access backend
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:8081',
+  'http://127.0.0.1:8081',
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  process.env.FRONTEND_URL || 'http://localhost:5173'
+];
+
+// Add production URLs if in production
+if (process.env.NODE_ENV === 'production') {
+  allowedOrigins.push(
+    'https://nutriagent-ai-frontend.onrender.com',
+    'https://nutriagent-ai.onrender.com'
+  );
+}
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'http://localhost:8081',
-    'http://127.0.0.1:8081',
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-    process.env.FRONTEND_URL || 'http://localhost:5173'
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
   allowedHeaders: [
@@ -78,13 +97,23 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/uploads/avatars', express.static(path.join(__dirname, '../uploads/avatars')));
 
-// Health check endpoint
+// Health check endpoint for Render
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
     message: 'AI Recipe Recommender API is running',
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '1.0.0',
+    environment: process.env.NODE_ENV
+  });
+});
+
+// Additional health check endpoint for Render
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    service: 'nutriagent-ai-backend',
+    timestamp: new Date().toISOString()
   });
 });
 
