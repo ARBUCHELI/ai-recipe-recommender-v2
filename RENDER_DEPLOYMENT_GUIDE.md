@@ -30,7 +30,7 @@
    - **Runtime**: `Node`
    - **Build Command**: 
      ```bash
-     npm install && npm run build && npx prisma migrate deploy
+     npm install && npm run build && npx prisma db push
      ```
    - **Start Command**: `npm start`
    - **Plan**: `Free`
