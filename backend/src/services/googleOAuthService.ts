@@ -14,6 +14,19 @@ interface GoogleTokenPayload {
   aud: string;
 }
 
+// Interface for the raw Google token response
+interface GoogleTokenResponse {
+  sub: string;
+  email: string;
+  name?: string;
+  picture?: string;
+  email_verified: string | boolean;
+  iss: string;
+  aud: string;
+  exp: string;
+  iat: string;
+}
+
 interface GoogleOAuthResponse {
   success: boolean;
   user?: {
@@ -39,6 +52,28 @@ export class GoogleOAuthService {
   }
 
   /**
+   * Type guard to validate Google token response
+   */
+  private isValidGoogleTokenResponse(payload: unknown): payload is GoogleTokenResponse {
+    if (!payload || typeof payload !== 'object') {
+      return false;
+    }
+    
+    const p = payload as Record<string, unknown>;
+    
+    return (
+      typeof p.sub === 'string' &&
+      typeof p.email === 'string' &&
+      typeof p.aud === 'string' &&
+      typeof p.iss === 'string' &&
+      typeof p.exp === 'string' &&
+      (typeof p.email_verified === 'string' || typeof p.email_verified === 'boolean') &&
+      (p.name === undefined || typeof p.name === 'string') &&
+      (p.picture === undefined || typeof p.picture === 'string')
+    );
+  }
+
+  /**
    * Verify Google ID token and extract user information
    * Uses Google's tokeninfo API for validation
    */
@@ -52,7 +87,15 @@ export class GoogleOAuthService {
         return null;
       }
 
-      const payload = await response.json();
+      const rawPayload = await response.json();
+      
+      // Validate and type-assert the payload
+      if (!this.isValidGoogleTokenResponse(rawPayload)) {
+        console.error('Invalid Google token response format');
+        return null;
+      }
+      
+      const payload = rawPayload as GoogleTokenResponse;
       
       // Verify the token is for our client ID
       if (payload.aud !== this.clientId) {
@@ -61,7 +104,11 @@ export class GoogleOAuthService {
       }
 
       // Ensure email is verified
-      if (!payload.email_verified || payload.email_verified !== 'true') {
+      const emailVerified = typeof payload.email_verified === 'string' 
+        ? payload.email_verified === 'true'
+        : payload.email_verified === true;
+      
+      if (!emailVerified) {
         console.error('Google email is not verified');
         return null;
       }
@@ -77,7 +124,7 @@ export class GoogleOAuthService {
         email: payload.email,
         name: payload.name || payload.email,
         picture: payload.picture,
-        email_verified: payload.email_verified === 'true',
+        email_verified: emailVerified,
         iss: payload.iss,
         aud: payload.aud
       };
