@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useReducer, ReactNode } fr
 import { authService, User } from '@/services/authService';
 import { recipeService } from '@/services/recipeService';
 import { ingredientService } from '@/services/ingredientService';
+import { analyticsService } from '@/services/analyticsService';
 import { LocalStorageService } from '@/utils/localStorage';
 import { useToast } from '@/hooks/use-toast';
 
@@ -23,6 +24,7 @@ type AuthAction =
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>;
   register: (name: string, email: string, password: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
   clearError: () => void;
   refreshUser: () => Promise<void>;
@@ -114,6 +116,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             LocalStorageService.setCurrentUser(response.user.id);
             recipeService.updateToken(authService.getToken());
             ingredientService.updateToken(authService.getToken());
+            analyticsService.updateToken(authService.getToken());
           } else {
             authService.logout();
             LocalStorageService.clearUserData();
@@ -146,6 +149,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         LocalStorageService.setCurrentUser(response.user.id);
         recipeService.updateToken(authService.getToken());
         ingredientService.updateToken(authService.getToken());
+        analyticsService.updateToken(authService.getToken());
         
         toast({
           title: "Welcome back! 👋",
@@ -191,9 +195,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         LocalStorageService.setCurrentUser(response.user.id);
         recipeService.updateToken(authService.getToken());
         ingredientService.updateToken(authService.getToken());
+        analyticsService.updateToken(authService.getToken());
         
         toast({
-          title: "Welcome to AI Recipe Recommender! 🎉",
+          title: "Welcome to NutriAgent! 🎉",
           description: `Hi ${response.user.name}! Your account has been created successfully.`,
         });
         
@@ -223,6 +228,52 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async (): Promise<boolean> => {
+    try {
+      dispatch({ type: 'AUTH_START' });
+      
+      const response = await authService.loginWithGoogle();
+      
+      if (response.success && response.user) {
+        dispatch({ type: 'AUTH_SUCCESS', payload: response.user });
+        
+        // Set user context for all services
+        LocalStorageService.setCurrentUser(response.user.id);
+        recipeService.updateToken(authService.getToken());
+        ingredientService.updateToken(authService.getToken());
+        analyticsService.updateToken(authService.getToken());
+        
+        toast({
+          title: "Welcome! 🎉",
+          description: `Hello ${response.user.name}, you're successfully signed in with Google.`,
+        });
+        
+        return true;
+      } else {
+        dispatch({ type: 'AUTH_ERROR', payload: response.message || 'Google login failed' });
+        
+        toast({
+          title: "Google Sign In Failed",
+          description: response.message || 'Please try again.',
+          variant: "destructive"
+        });
+        
+        return false;
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Google sign in failed';
+      dispatch({ type: 'AUTH_ERROR', payload: message });
+      
+      toast({
+        title: "Google Sign In Error",
+        description: message,
+        variant: "destructive"
+      });
+      
+      return false;
+    }
+  };
+
   const logout = () => {
     const currentUserId = state.user?.id;
     
@@ -236,6 +287,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Reset service tokens
     recipeService.updateToken(null);
     ingredientService.updateToken(null);
+    analyticsService.updateToken(null);
     
     dispatch({ type: 'AUTH_LOGOUT' });
     
@@ -261,6 +313,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           LocalStorageService.setCurrentUser(response.user.id);
           recipeService.updateToken(authService.getToken());
           ingredientService.updateToken(authService.getToken());
+          analyticsService.updateToken(authService.getToken());
         } else {
           logout();
         }
@@ -274,6 +327,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     ...state,
     login,
     register,
+    loginWithGoogle,
     logout,
     clearError,
     refreshUser,

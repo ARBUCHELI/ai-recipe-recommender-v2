@@ -189,7 +189,9 @@ class CentralStoreService {
 // Export singleton instance
 export const centralStoreService = new CentralStoreService();
 
-// Helper function to generate stable rating based on store ID
+// Helper function to generate stable synthetic rating based on store ID
+// NOTE: These are NOT real Google Reviews ratings - they are computed ratings
+// for demonstration purposes to provide consistent store ranking
 const generateStableRating = (storeId: string): number => {
   // Create a simple hash from the store ID
   let hash = 0;
@@ -217,7 +219,7 @@ export const convertNearbyStoreToCentralStore = (nearbyStore: any): CentralStore
       nearbyStore.amenities?.join(', ') || '',
       nearbyStore.openingHours ? `Hours: ${nearbyStore.openingHours}` : ''
     ].filter(Boolean).join(' • ') || 'Local grocery store',
-    rating: generateStableRating(nearbyStore.id), // Stable rating based on store ID
+    rating: generateStableRating(nearbyStore.id), // Synthetic community rating (NOT Google Reviews)
     storeType: nearbyStore.storeType,
     description: `${nearbyStore.storeType === 'supermarket' ? 'Full-service grocery store' : 
                    nearbyStore.storeType === 'convenience' ? 'Quick shopping convenience store' :

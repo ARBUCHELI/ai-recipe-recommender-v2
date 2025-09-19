@@ -3,9 +3,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { GoogleSignInButton } from './GoogleSignInButton';
 
 interface SignInModalProps {
   open: boolean;
@@ -23,6 +25,9 @@ export const SignInModal: React.FC<SignInModalProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading, error, clearError } = useAuth();
   const { t } = useTranslation();
+  
+  // Check if Google OAuth is configured
+  const isGoogleConfigured = !!import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +70,34 @@ export const SignInModal: React.FC<SignInModalProps> = ({
           </DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <div className="space-y-4 mt-4">
+          {/* Google Sign In Section - only show if configured */}
+          {isGoogleConfigured && (
+            <>
+              <GoogleSignInButton
+                onSuccess={() => {
+                  // Reset form and close modal on success
+                  setEmail('');
+                  setPassword('');
+                  setShowPassword(false);
+                  onOpenChange(false);
+                }}
+              />
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator className="w-full" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    {t('forms.labels.orContinueWith', 'Or continue with email')}
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+        
+          <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-foreground">{t('forms.labels.email')}</Label>
             <div className="relative">
@@ -132,7 +164,8 @@ export const SignInModal: React.FC<SignInModalProps> = ({
               </button>
             </p>
           </div>
-        </form>
+          </form>
+        </div>
       </DialogContent>
     </Dialog>
   );

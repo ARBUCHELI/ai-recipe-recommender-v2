@@ -20,6 +20,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Recipe } from '@/services/recipeService';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -33,6 +34,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
   uploadedIngredients = [],
   onDelete
 }) => {
+  const { t } = useTranslation();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const handleDeleteClick = () => {
@@ -92,7 +94,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                   onClick={handleDeleteClick}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Recipe
+                  {t('recipeCard.deleteRecipe')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -105,15 +107,15 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
         <div className="flex flex-wrap gap-3 mb-4 text-xs">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3 text-brand-primary" />
-            <span className="text-secondary-dark font-medium">{(recipe.prepTime || 0) + (recipe.cookTime || 0)} mins</span>
+            <span className="text-secondary-dark font-medium">{(recipe.prepTime || 0) + (recipe.cookTime || 0)} {t('recipeCard.mins')}</span>
           </div>
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3 text-brand-primary" />
-            <span className="text-secondary-dark font-medium">{recipe.servings || 4} servings</span>
+            <span className="text-secondary-dark font-medium">{recipe.servings || 4} {t('recipeCard.servings')}</span>
           </div>
           <div className="flex items-center gap-1">
             <ChefHat className="h-3 w-3 text-brand-primary" />
-            <span className="capitalize text-secondary-dark font-medium">{recipe.difficulty || 'Easy'}</span>
+            <span className="capitalize text-secondary-dark font-medium">{recipe.difficulty || t('recipeCard.easy')}</span>
           </div>
         </div>
 
@@ -124,32 +126,32 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
               <div className="text-sm font-bold text-error">
                 {Math.round((recipe.nutrition.calories || 0) / (recipe.servings || 1))}
               </div>
-              <div className="text-xs text-secondary-dark">Cal</div>
+              <div className="text-xs text-secondary-dark">{t('recipeCard.cal')}</div>
             </div>
             <div className="text-center">
               <div className="text-sm font-bold text-brand-primary">
                 {Math.round((recipe.nutrition.protein || 0) / (recipe.servings || 1))}g
               </div>
-              <div className="text-xs text-secondary-dark">Protein</div>
+              <div className="text-xs text-secondary-dark">{t('recipeCard.protein')}</div>
             </div>
             <div className="text-center">
               <div className="text-sm font-bold text-warning">
                 {Math.round((recipe.nutrition.carbs || 0) / (recipe.servings || 1))}g
               </div>
-              <div className="text-xs text-secondary-dark">Carbs</div>
+              <div className="text-xs text-secondary-dark">{t('recipeCard.carbs')}</div>
             </div>
             <div className="text-center">
               <div className="text-sm font-bold text-success">
                 {Math.round((recipe.nutrition.fat || 0) / (recipe.servings || 1))}g
               </div>
-              <div className="text-xs text-secondary-dark">Fat</div>
+              <div className="text-xs text-secondary-dark">{t('recipeCard.fat')}</div>
             </div>
           </div>
         )}
 
         {/* Ingredients Preview */}
         <div className="mb-4">
-          <h4 className="font-semibold mb-2 text-sm text-primary-dark">Ingredients ({recipe.ingredients.length})</h4>
+          <h4 className="font-semibold mb-2 text-sm text-primary-dark">{t('recipeCard.ingredients')} ({recipe.ingredients.length})</h4>
           <div className="text-xs text-secondary-dark">
             {isExpanded ? (
               <ul className="space-y-1">
@@ -163,7 +165,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
             ) : (
               <p className="line-clamp-2">
                 {recipe.ingredients.slice(0, 3).join(', ')}
-                {recipe.ingredients.length > 3 && ` + ${recipe.ingredients.length - 3} more`}
+                {recipe.ingredients.length > 3 && ` + ${recipe.ingredients.length - 3} ${t('recipeCard.more')}`}
               </p>
             )}
           </div>
@@ -176,14 +178,14 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           onClick={() => setIsExpanded(!isExpanded)}
           className="w-full text-xs h-8"
         >
-          {isExpanded ? 'Show Less' : `Show ${recipe.instructions.length} Steps`}
+          {isExpanded ? t('recipeCard.showLess') : `${t('recipeCard.show')} ${recipe.instructions.length} ${t('recipeCard.steps')}`}
         </Button>
 
         {/* Expanded Content */}
         {isExpanded && (
           <div className="mt-4 space-y-4 border-t pt-4">
             <div>
-              <h4 className="font-semibold mb-2 text-sm text-primary-dark">Instructions</h4>
+              <h4 className="font-semibold mb-2 text-sm text-primary-dark">{t('recipeCard.instructions')}</h4>
               <ol className="space-y-2">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index} className="text-xs flex gap-2">
@@ -204,11 +206,10 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           <AlertDialogHeader>
             <AlertDialogTitle className="text-primary-dark flex items-center gap-2">
               <Trash2 className="h-5 w-5 text-error" />
-              Delete Recipe
+              {t('recipeCard.deleteRecipe')}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-secondary-dark">
-              Are you sure you want to delete <strong className="text-primary-dark">"{recipe.name}"</strong>? 
-              This action cannot be undone and the recipe will be permanently removed from your account.
+              {t('recipeCard.deleteConfirmation').replace('${recipeName}', recipe.name)}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -216,13 +217,13 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
               onClick={handleDeleteCancel}
               className="border-neutral text-secondary-dark hover:bg-neutral-50"
             >
-              Cancel
+              {t('common.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleDeleteConfirm}
               className="bg-error hover:bg-error/90 text-white font-medium"
             >
-              Delete Recipe
+              {t('recipeCard.deleteRecipe')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 //import { Recipe } from '@/services/aiService';
 import { Recipe } from '@/services/realAiService';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface ShoppingListProps {
   recipes: Recipe[];
@@ -20,6 +21,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = ({
   recipes, 
   categories 
 }) => {
+  const { t } = useTranslation();
   const [checkedItems, setCheckedItems] = React.useState<Record<string, boolean>>({});
 
   // Extract unique ingredients from all recipes
@@ -55,7 +57,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = ({
       }
     }
     
-    return 'Other';
+    return t('shoppingList.other');
   };
 
   const handleItemCheck = (itemName: string, checked: boolean) => {
@@ -84,9 +86,9 @@ export const ShoppingList: React.FC<ShoppingListProps> = ({
       <CardHeader className="gradient-secondary text-secondary-foreground">
         <CardTitle className="flex items-center gap-2">
           <ShoppingCart className="h-5 w-5" />
-          Shopping List
+          {t('shoppingList.title')}
           <span className="text-sm font-normal">
-            ({checkedCount}/{totalItems} items)
+            ({checkedCount}/{totalItems} {t('shoppingList.items')})
           </span>
         </CardTitle>
       </CardHeader>
@@ -99,7 +101,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = ({
                 <Package className="h-4 w-4 text-accent" />
                 <h4 className="font-medium text-foreground">{category}</h4>
                 <span className="text-sm text-muted-foreground">
-                  ({items.length} items)
+                  ({items.length} {t('shoppingList.items')})
                 </span>
               </div>
               
@@ -134,7 +136,7 @@ export const ShoppingList: React.FC<ShoppingListProps> = ({
           
           {totalItems === 0 && (
             <p className="text-center text-muted-foreground py-8">
-              No recipes selected. Generate some recipes to create your shopping list!
+              {t('shoppingList.noRecipes')}
             </p>
           )}
         </div>

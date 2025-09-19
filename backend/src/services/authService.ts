@@ -1,8 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
+import { GoogleOAuthService } from './googleOAuthService';
 
 const prisma = new PrismaClient();
+const googleOAuthService = new GoogleOAuthService();
 
 interface RegisterData {
   name: string;
@@ -134,6 +136,14 @@ export class AuthService {
         };
       }
 
+      // Check if user has a password (some users might only have Google OAuth)
+      if (!user.password) {
+        return {
+          success: false,
+          message: 'Please sign in with Google or reset your password'
+        };
+      }
+
       // Check password
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
@@ -196,6 +206,35 @@ export class AuthService {
       return {
         success: false,
         message: 'An error occurred while fetching user data'
+      };
+    }
+  }
+
+  async googleOAuth(idToken: string): Promise<AuthResponse> {
+    try {
+      // Use Google OAuth service to authenticate
+      const googleResult = await googleOAuthService.authenticateWithGoogle(idToken);
+      
+      if (!googleResult.success || !googleResult.user) {
+        return {
+          success: false,
+          message: googleResult.message || 'Google authentication failed'
+        };
+      }
+
+      // Generate JWT token for the authenticated user
+      const token = this.generateToken(googleResult.user.id, googleResult.user.email);
+
+      return {
+        success: true,
+        user: googleResult.user,
+        token
+      };
+    } catch (error) {
+      console.error('Google OAuth error:', error);
+      return {
+        success: false,
+        message: 'An error occurred during Google authentication'
       };
     }
   }

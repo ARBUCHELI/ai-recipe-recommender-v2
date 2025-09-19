@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Target, TrendingUp, ShoppingBag, ChefHat, Droplets, Info, Calendar, Star } from 'lucide-react';
-import { 
-  UserHealthProfile, 
-  PersonalizedMealPlan, 
-  MealTimingRecommendation,
-  ShoppingRecommendations 
-} from '../types/HealthProfile';
+import { Clock, ShoppingBag, ChefHat, Calendar, Info, Brain } from 'lucide-react';
+import { UserHealthProfile } from '../types/HealthProfile';
+import { enhancedAIService } from '../services/enhancedAIService';
 import { HealthCalculationService } from '../services/healthCalculationService';
-import { MealTimingService } from '../services/MealTimingService';
 import { useToast } from '@/hooks/use-toast';
-import { useTranslation } from '@/contexts/TranslationContext';
-import { LanguageSwitcher } from './LanguageSwitcher';
-import { centralStoreService, convertNearbyStoreToCentralStore } from '@/services/centralStoreService';
 import CompactStoreCard from './CompactStoreCard';
+import { convertNearbyStoreToCentralStore } from '../services/centralStoreService';
+import { NearbyStore } from '../services/overpassService';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface PersonalizedDashboardProps {
   healthProfile: UserHealthProfile;
   onUpdateProfile?: () => void;
-  nearbyStores?: any[];
+  nearbyStores?: NearbyStore[];
 }
 
 export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
@@ -25,15 +20,14 @@ export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
   onUpdateProfile,
   nearbyStores = []
 }) => {
-  const [activeTab, setActiveTab] = useState<'meals' | 'timing' | 'shopping'>('meals');
-  const [personalizedMealPlan, setPersonalizedMealPlan] = useState<PersonalizedMealPlan | null>(null);
-  const [mealTiming, setMealTiming] = useState<MealTimingRecommendation | null>(null);
-  const [shoppingRecommendations, setShoppingRecommendations] = useState<ShoppingRecommendations | null>(null);
-  const [isGeneratingMeals, setIsGeneratingMeals] = useState(false);
-  const { toast } = useToast();
   const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState<'meals' | 'timing' | 'shopping'>('meals');
+  const [recipes, setRecipes] = useState<any[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isAIReady, setIsAIReady] = useState(false);
+  const [aiStatus, setAiStatus] = useState(t('dashboard.initializingAI'));
+  const { toast } = useToast();
   
-
   // Calculate health metrics
   const healthResponse = HealthCalculationService.createHealthProfile({
     height: healthProfile.height,
@@ -51,196 +45,241 @@ export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
   
   const nutritionTargets = healthResponse.success && healthResponse.nutritionTargets ? 
     healthResponse.nutritionTargets : null;
-  
+
+  // Initialize AI service on component mount
   useEffect(() => {
-    // Generate meal timing recommendations
-    try {
-      const timingRecs = MealTimingService.generateMealTiming(healthProfile);
-      setMealTiming(timingRecs);
-    } catch (error) {
-      console.error('Error generating meal timing:', error);
-    }
-
-    // Generate shopping recommendations
-    if (nutritionTargets) {
-      try {
-        const shoppingRecs = HealthCalculationService.generateShoppingRecommendations(healthProfile, nutritionTargets);
-        setShoppingRecommendations(shoppingRecs);
-      } catch (error) {
-        console.error('Error generating shopping recommendations:', error);
-      }
-    }
-  }, [healthProfile, nutritionTargets]);
-
-  const generatePersonalizedMeals = async () => {
-    setIsGeneratingMeals(true);
-    try {
-      console.log('🎯 Starting meal generation with nutritionTargets:', nutritionTargets);
+    const initializeAI = async () => {
+      console.log('🤖 Starting AI initialization...');
+      setAiStatus(t('dashboard.loadingAIModels'));
       
-      // Create a simplified meal plan for testing
+      try {
+        await enhancedAIService.initialize((status) => {
+          console.log('📊 AI Status:', status);
+          setAiStatus(status);
+        });
+        
+        setIsAIReady(true);
+        setAiStatus(t('dashboard.aiReady'));
+        console.log('✅ AI initialization successful');
+        
+        toast({
+          title: t('dashboard.aiReady'),
+          description: t('dashboard.advancedRecipeGeneration')
+        });
+      } catch (error) {
+        console.error('❌ AI initialization failed:', error);
+        setAiStatus(t('dashboard.aiUnavailable'));
+        setIsAIReady(false);
+      }
+    };
+    
+    initializeAI();
+  }, [toast]);
+
+  const handleTabClick = (tab: 'meals' | 'timing' | 'shopping') => {
+    console.log('🔄 Switching to tab:', tab);
+    setActiveTab(tab);
+  };
+
+  const generateMeals = async () => {
+    console.log('🍽️ Starting meal generation...', { isAIReady, isGenerating });
+    
+    if (isGenerating) {
+      console.log('⚠️ Already generating, ignoring click');
+      return;
+    }
+    
+    setIsGenerating(true);
+    
+    try {
       const targetCaloriesPerMeal = {
         breakfast: Math.round((nutritionTargets?.totalCalories || 2000) * 0.25),
         lunch: Math.round((nutritionTargets?.totalCalories || 2000) * 0.35),
         dinner: Math.round((nutritionTargets?.totalCalories || 2000) * 0.40)
       };
       
-      // Simulate async meal generation
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('📊 Target calories per meal:', targetCaloriesPerMeal);
       
-      // Generate meal variations based on language
-      const getBreakfastOptions = () => [
-        t('dashboard.meals.recipeList.breakfast.avocadoToast'),
-        t('dashboard.meals.recipeList.breakfast.greekYogurt'),
-        t('dashboard.meals.recipeList.breakfast.oatmeal')
+      // Ingredient options for variety
+      const breakfastOptions = [
+        ['eggs', 'spinach', 'avocado', 'toast'],
+        ['oats', 'blueberries', 'almonds', 'honey'],
+        ['yogurt', 'granola', 'strawberries', 'chia seeds']
       ];
       
-      const getLunchOptions = () => [
-        t('dashboard.meals.recipeList.lunch.quinoaSalad'),
-        t('dashboard.meals.recipeList.lunch.chickenWrap'),
-        t('dashboard.meals.recipeList.lunch.lentilSoup')
+      const lunchOptions = [
+        ['chicken breast', 'quinoa', 'vegetables', 'olive oil'],
+        ['salmon', 'rice', 'asparagus', 'lemon'],
+        ['turkey', 'sweet potato', 'kale', 'feta']
       ];
       
-      const getDinnerOptions = () => [
-        t('dashboard.meals.recipeList.dinner.salmonRice'),
-        t('dashboard.meals.recipeList.dinner.stirfry'),
-        t('dashboard.meals.recipeList.dinner.chickenBroccoli')
+      const dinnerOptions = [
+        ['salmon fillet', 'broccoli', 'sweet potato', 'herbs'],
+        ['chicken thighs', 'cauliflower', 'peppers', 'garlic'],
+        ['beef', 'zucchini', 'tomato sauce', 'basil']
       ];
-
-      const mealPlan: PersonalizedMealPlan = {
-        id: `plan-${Date.now()}`,
-        userId: healthProfile.userId,
-        createdAt: new Date().toISOString(),
-        targetCalories: nutritionTargets?.totalCalories || 2000,
-        macroTargets: {
-          protein: nutritionTargets?.protein.grams || 150,
-          carbs: nutritionTargets?.carbs.grams || 250,
-          fat: nutritionTargets?.fat.grams || 67
-        },
-        breakfast: {
-          id: `breakfast-${Date.now()}`,
-          name: getBreakfastOptions()[Math.floor(Math.random() * 3)],
-          description: `${t('dashboard.meals.breakfast')} - ${targetCaloriesPerMeal.breakfast} ${t('dashboard.meals.calories')}`,
-          ingredients: [
-            "2 eggs", "1/2 cup oats", "1/2 cup berries", "1 banana",
-            "1 tbsp almond butter", "1 tsp honey", "1/2 cup milk"
-          ],
-          instructions: ["Cook eggs to preference", "Prepare oats with milk", "Combine and serve"],
-          prepTime: 5,
-          cookTime: 10,
-          servings: 1,
-          nutrition: {
-            calories: targetCaloriesPerMeal.breakfast,
-            protein: Math.round((nutritionTargets?.protein.grams || 150) * 0.25),
-            carbs: Math.round((nutritionTargets?.carbs.grams || 250) * 0.25),
-            fat: Math.round((nutritionTargets?.fat.grams || 67) * 0.25)
-          }
-        },
-        lunch: {
-          id: `lunch-${Date.now()}`,
-          name: getLunchOptions()[Math.floor(Math.random() * 3)],
-          description: `${t('dashboard.meals.lunch')} - ${targetCaloriesPerMeal.lunch} ${t('dashboard.meals.calories')}`,
-          ingredients: [
-            "150g chicken breast", "1 cup quinoa", "2 cups mixed greens",
-            "1/2 cucumber", "1/4 cup cherry tomatoes", "1/4 cup feta cheese"
-          ],
-          instructions: ["Grill chicken", "Cook quinoa", "Combine salad ingredients", "Add dressing"],
-          prepTime: 15,
-          cookTime: 12,
-          servings: 1,
-          nutrition: {
-            calories: targetCaloriesPerMeal.lunch,
-            protein: Math.round((nutritionTargets?.protein.grams || 150) * 0.35),
-            carbs: Math.round((nutritionTargets?.carbs.grams || 250) * 0.35),
-            fat: Math.round((nutritionTargets?.fat.grams || 67) * 0.35)
-          }
-        },
-        dinner: {
-          id: `dinner-${Date.now()}`,
-          name: getDinnerOptions()[Math.floor(Math.random() * 3)],
-          description: `${t('dashboard.meals.dinner')} - ${targetCaloriesPerMeal.dinner} ${t('dashboard.meals.calories')}`,
-          ingredients: [
-            "180g salmon fillet", "1 cup broccoli", "1 medium sweet potato",
-            "1/2 red bell pepper", "2 tbsp olive oil", "Fresh herbs"
-          ],
-          instructions: ["Preheat oven to 425°F", "Season salmon", "Roast vegetables", "Cook salmon", "Serve together"],
-          prepTime: 10,
-          cookTime: 25,
-          servings: 1,
-          nutrition: {
-            calories: targetCaloriesPerMeal.dinner,
-            protein: Math.round((nutritionTargets?.protein.grams || 150) * 0.40),
-            carbs: Math.round((nutritionTargets?.carbs.grams || 250) * 0.40),
-            fat: Math.round((nutritionTargets?.fat.grams || 67) * 0.40)
-          }
-        },
-        totalNutrition: {
-          calories: targetCaloriesPerMeal.breakfast + targetCaloriesPerMeal.lunch + targetCaloriesPerMeal.dinner,
-          protein: nutritionTargets?.protein.grams || 150,
-          carbs: nutritionTargets?.carbs.grams || 250,
-          fat: nutritionTargets?.fat.grams || 67
-        },
-        dietaryRestrictions: healthProfile.dietaryRestrictions,
-        fitnessGoal: healthProfile.fitnessGoal
-      };
       
-      console.log('✅ Generated meal plan:', mealPlan);
-      setPersonalizedMealPlan(mealPlan);
+      // Select random ingredients
+      const selectedBreakfast = breakfastOptions[Math.floor(Math.random() * breakfastOptions.length)];
+      const selectedLunch = lunchOptions[Math.floor(Math.random() * lunchOptions.length)];
+      const selectedDinner = dinnerOptions[Math.floor(Math.random() * dinnerOptions.length)];
       
-      toast({
-        title: "Success!",
-        description: "Personalized meal plan generated!"
-      });
+      console.log('🥗 Selected ingredients:', { selectedBreakfast, selectedLunch, selectedDinner });
+      
+      let generatedRecipes = [];
+      
+      if (isAIReady) {
+        console.log('🤖 Using AI generation');
+        
+        try {
+          // User context for AI
+          const userContext = {
+            dietaryRestrictions: healthProfile.dietaryRestrictions || [],
+            fitnessGoal: healthProfile.fitnessGoal || 'maintain_weight',
+            healthConditions: healthProfile.healthConditions || [],
+            targetCalories: nutritionTargets?.totalCalories || 2000,
+            targetProtein: nutritionTargets?.protein.grams || 150
+          };
+          
+          // Generate breakfast with AI
+          const breakfastResult = await enhancedAIService.generateSimpleRecipe(
+            selectedBreakfast,
+            targetCaloriesPerMeal.breakfast,
+            { ...userContext, mealType: 'breakfast' },
+            'breakfast'
+          );
+          
+          await new Promise(resolve => setTimeout(resolve, 200)); // Small delay
+          
+          // Generate lunch with AI
+          const lunchResult = await enhancedAIService.generateSimpleRecipe(
+            selectedLunch,
+            targetCaloriesPerMeal.lunch,
+            { ...userContext, mealType: 'lunch' },
+            'lunch'
+          );
+          
+          await new Promise(resolve => setTimeout(resolve, 200)); // Small delay
+          
+          // Generate dinner with AI
+          const dinnerResult = await enhancedAIService.generateSimpleRecipe(
+            selectedDinner,
+            targetCaloriesPerMeal.dinner,
+            { ...userContext, mealType: 'dinner' },
+            'dinner'
+          );
+          
+          console.log('✅ AI generation successful');
+          
+          generatedRecipes = [
+            {
+              id: 'breakfast',
+              name: breakfastResult.name || 'AI Breakfast',
+              description: breakfastResult.description || 'AI-generated breakfast',
+              ingredients: breakfastResult.ingredients || selectedBreakfast,
+              calories: targetCaloriesPerMeal.breakfast,
+              protein: Math.round(targetCaloriesPerMeal.breakfast * 0.25 / 4), // ~25% protein
+              type: 'Breakfast',
+              aiGenerated: true
+            },
+            {
+              id: 'lunch',
+              name: lunchResult.name || 'AI Lunch',
+              description: lunchResult.description || 'AI-generated lunch',
+              ingredients: lunchResult.ingredients || selectedLunch,
+              calories: targetCaloriesPerMeal.lunch,
+              protein: Math.round(targetCaloriesPerMeal.lunch * 0.3 / 4), // ~30% protein
+              type: 'Lunch',
+              aiGenerated: true
+            },
+            {
+              id: 'dinner',
+              name: dinnerResult.name || 'AI Dinner',
+              description: dinnerResult.description || 'AI-generated dinner',
+              ingredients: dinnerResult.ingredients || selectedDinner,
+              calories: targetCaloriesPerMeal.dinner,
+              protein: Math.round(targetCaloriesPerMeal.dinner * 0.35 / 4), // ~35% protein
+              type: 'Dinner',
+              aiGenerated: true
+            }
+          ];
+          
+          toast({
+            title: `${t('dashboard.aiSuccess')} 🤖`,
+            description: t('dashboard.aiMealPlanGenerated')
+          });
+          
+        } catch (aiError) {
+          console.warn('⚠️ AI generation failed, using fallback:', aiError);
+          throw aiError; // Fall through to fallback
+        }
+      } else {
+        throw new Error('AI not ready'); // Fall through to fallback
+      }
+      
+      setRecipes(generatedRecipes);
+      
     } catch (error) {
-      console.error('Error generating personalized meals:', error);
+      console.log('🔄 Using fallback recipe generation');
+      
+      // Fallback to structured recipes
+      const fallbackRecipes = [
+        {
+          id: 'breakfast',
+          name: t('dashboard.healthyBreakfast'),
+          description: t('dashboard.nutritiousStart'),
+          ingredients: ['2 eggs', 'spinach', 'avocado', 'whole grain toast'],
+          calories: Math.round((nutritionTargets?.totalCalories || 2000) * 0.25),
+          protein: 25,
+          type: 'Breakfast',
+          aiGenerated: false
+        },
+        {
+          id: 'lunch',
+          name: t('dashboard.balancedLunch'),
+          description: t('dashboard.wellRoundedMeal'),
+          ingredients: ['chicken breast', 'quinoa', 'mixed vegetables', 'olive oil'],
+          calories: Math.round((nutritionTargets?.totalCalories || 2000) * 0.35),
+          protein: 35,
+          type: 'Lunch',
+          aiGenerated: false
+        },
+        {
+          id: 'dinner',
+          name: t('dashboard.nutritiousDinner'),
+          description: t('dashboard.perfectEnd'),
+          ingredients: ['salmon fillet', 'broccoli', 'sweet potato'],
+          calories: Math.round((nutritionTargets?.totalCalories || 2000) * 0.40),
+          protein: 40,
+          type: 'Dinner',
+          aiGenerated: false
+        }
+      ];
+      
+      setRecipes(fallbackRecipes);
+      
       toast({
-        title: "Error",
-        description: "Failed to generate meal plan. Please try again.",
-        variant: "destructive"
+        title: t('dashboard.mealsGenerated'),
+        description: isAIReady ? t('dashboard.fallbackAfterError') : t('dashboard.aiNotReady')
       });
     } finally {
-      setIsGeneratingMeals(false);
+      setIsGenerating(false);
+      console.log('✅ Meal generation completed');
     }
   };
 
-
-  if (!healthResponse.success) {
-    return (
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Error Loading Health Data</h3>
-          <p className="text-gray-600 mb-4">{healthResponse.message || 'Unable to calculate health metrics'}</p>
-          <button 
-            onClick={() => window.location.reload()}
-            className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
-      {/* Header with Language Selector */}
+      {/* Header */}
       <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200">
-        <div className="flex justify-between items-start">
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{t('dashboard.title')}</h1>
-            <p className="text-gray-600">
-              {t('dashboard.subtitle')}
-            </p>
-          </div>
-          <div className="ml-4">
-            <LanguageSwitcher />
-          </div>
-        </div>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">{t('dashboard.title')}</h1>
+        <p className="text-gray-600">{t('dashboard.subtitle')}</p>
       </div>
 
       {/* Tab Navigation */}
       <div className="flex gap-2 overflow-x-auto pb-2">
         <button
-          onClick={() => setActiveTab('meals')}
+          onClick={() => handleTabClick('meals')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'meals'
               ? 'bg-amber-100 text-amber-800 border border-amber-200' 
@@ -251,7 +290,7 @@ export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
           {t('dashboard.tabs.meals')}
         </button>
         <button
-          onClick={() => setActiveTab('timing')}
+          onClick={() => handleTabClick('timing')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'timing'
               ? 'bg-amber-100 text-amber-800 border border-amber-200' 
@@ -262,7 +301,7 @@ export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
           {t('dashboard.tabs.timing')}
         </button>
         <button
-          onClick={() => setActiveTab('shopping')}
+          onClick={() => handleTabClick('shopping')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'shopping'
               ? 'bg-amber-100 text-amber-800 border border-amber-200' 
@@ -275,201 +314,183 @@ export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
       </div>
 
       {/* Tab Content */}
-      
       {activeTab === 'meals' && (
         <div className="space-y-6">
-          {/* Generate Meals Button */}
+          {/* AI Status and Generate Button */}
           <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.meals.title')}</h3>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Brain className={`w-5 h-5 ${isAIReady ? 'text-green-500' : 'text-amber-500 animate-pulse'}`} />
+              <h3 className="text-lg font-semibold text-gray-800">
+                {isAIReady ? t('dashboard.aiPoweredMealPlans') : t('dashboard.mealPlanGenerator')}
+              </h3>
+            </div>
+            
+            {!isAIReady && (
+              <div className="mb-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                <p className="text-amber-800 text-sm font-medium">{aiStatus}</p>
+              </div>
+            )}
+            
+            {isAIReady && (
+              <div className="mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                <p className="text-green-800 text-sm font-medium flex items-center justify-center gap-2">
+                  <Brain className="w-4 h-4" />
+                  {t('dashboard.aiReadyAdvanced')}
+                </p>
+              </div>
+            )}
+            
             <p className="text-gray-600 mb-4">
-              {t('dashboard.meals.subtitle')}
+              {isAIReady ? t('dashboard.generateAIPowered') : t('dashboard.createPersonalized')}
             </p>
             <button
-              onClick={generatePersonalizedMeals}
-              disabled={isGeneratingMeals}
-              className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              onClick={generateMeals}
+              disabled={isGenerating}
+              className="bg-brand-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-professional-md hover:shadow-professional-lg disabled:opacity-50"
             >
-              {isGeneratingMeals ? t('dashboard.meals.loading') : t('dashboard.meals.generateButton')}
+              {isGenerating 
+                ? (isAIReady ? `🤖 ${t('dashboard.aiGenerating')}` : `🔄 ${t('dashboard.generating')}`) 
+                : (isAIReady ? `🤖 ${t('dashboard.generateAIRecipes')}` : `🍽️ ${t('dashboard.generateMealPlan')}`)}
             </button>
           </div>
 
-          {/* Meal Plans Display */}
-          {personalizedMealPlan && (
-            <>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Breakfast */}
-                <div className="bg-white rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-3">
-                    🌅 {personalizedMealPlan.breakfast.name}
-                  </h4>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {personalizedMealPlan.breakfast.description}
-                  </p>
-                  <div className="flex justify-between text-sm text-gray-600 mb-3">
-                    <span>{personalizedMealPlan.breakfast.nutrition.calories} {t('dashboard.meals.calories')}</span>
-                    <span>{personalizedMealPlan.breakfast.nutrition.protein}{t('dashboard.meals.grams')} {t('dashboard.meals.protein')}</span>
+          {/* Recipe Display */}
+          {recipes.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {recipes.map((recipe) => (
+                <div key={recipe.id} className={`bg-white rounded-xl p-6 border-2 ${
+                  recipe.aiGenerated ? 'border-green-200 bg-gradient-to-br from-green-50 to-blue-50' : 'border-gray-200'
+                }`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-gray-800">
+                      {recipe.type === 'Breakfast' && '🌅'} 
+                      {recipe.type === 'Lunch' && '☀️'} 
+                      {recipe.type === 'Dinner' && '🌙'} 
+                      {recipe.name}
+                    </h4>
+                    {recipe.aiGenerated && (
+                      <div className="flex items-center gap-1">
+                        <Brain className="w-4 h-4 text-green-600" />
+                        <span className="text-xs text-green-600 font-medium">AI</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="text-xs text-gray-500">
-                    Prep: {personalizedMealPlan.breakfast.prepTime}min | 
-                    Cook: {personalizedMealPlan.breakfast.cookTime}min
+                  <p className="text-sm text-gray-600 mb-3">{recipe.description}</p>
+                  
+                  <div className="mb-3">
+                    <h5 className="text-sm font-medium text-gray-700 mb-1">{t('dashboard.ingredients')}:</h5>
+                    <ul className="text-xs text-gray-600 space-y-1">
+                      {recipe.ingredients.map((ingredient: string, index: number) => (
+                        <li key={index}>• {ingredient}</li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-
-                {/* Lunch */}
-                <div className="bg-white rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-3">
-                    ☀️ {personalizedMealPlan.lunch.name}
-                  </h4>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {personalizedMealPlan.lunch.description}
-                  </p>
-                  <div className="flex justify-between text-sm text-gray-600 mb-3">
-                    <span>{personalizedMealPlan.lunch.nutrition.calories} {t('dashboard.meals.calories')}</span>
-                    <span>{personalizedMealPlan.lunch.nutrition.protein}{t('dashboard.meals.grams')} {t('dashboard.meals.protein')}</span>
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    Prep: {personalizedMealPlan.lunch.prepTime}min | 
-                    Cook: {personalizedMealPlan.lunch.cookTime}min
+                  
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>{recipe.calories} {t('dashboard.meals.calories')}</span>
+                    <span>{recipe.protein}g {t('dashboard.meals.protein')}</span>
                   </div>
                 </div>
+              ))}
+            </div>
+          )}
 
-                {/* Dinner */}
-                <div className="bg-white rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-3">
-                    🌙 {personalizedMealPlan.dinner.name}
-                  </h4>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {personalizedMealPlan.dinner.description}
-                  </p>
-                  <div className="flex justify-between text-sm text-gray-600 mb-3">
-                    <span>{personalizedMealPlan.dinner.nutrition.calories} {t('dashboard.meals.calories')}</span>
-                    <span>{personalizedMealPlan.dinner.nutrition.protein}{t('dashboard.meals.grams')} {t('dashboard.meals.protein')}</span>
+          {recipes.length > 0 && (
+            <div className="bg-white rounded-xl p-6 border border-gray-200">
+              <h4 className="text-lg font-semibold text-gray-800 mb-3">{t('dashboard.dailyNutritionSummary')}</h4>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-amber-600">
+                    {recipes.reduce((total, recipe) => total + recipe.calories, 0)}
                   </div>
-                  <div className="text-xs text-gray-500">
-                    Prep: {personalizedMealPlan.dinner.prepTime}min | 
-                    Cook: {personalizedMealPlan.dinner.cookTime}min
+                  <div className="text-sm text-gray-600">{t('dashboard.meals.calories')}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-red-600">
+                    {recipes.reduce((total, recipe) => total + recipe.protein, 0)}g
                   </div>
+                  <div className="text-sm text-gray-600">{t('dashboard.meals.protein')}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">150g</div>
+                  <div className="text-sm text-gray-600">{t('dashboard.meals.carbs')}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">67g</div>
+                  <div className="text-sm text-gray-600">{t('dashboard.meals.fat')}</div>
                 </div>
               </div>
-
-              <div className="bg-white rounded-xl p-6 border border-gray-200">
-                <h4 className="text-lg font-semibold text-gray-800 mb-3">Daily Nutrition Summary</h4>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-amber-600">
-                      {personalizedMealPlan.totalNutrition.calories}
-                    </div>
-                    <div className="text-sm text-gray-600">{t('dashboard.meals.calories')}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-red-600">
-                      {personalizedMealPlan.totalNutrition.protein}{t('dashboard.meals.grams')}
-                    </div>
-                    <div className="text-sm text-gray-600">{t('dashboard.meals.protein')}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">
-                      {personalizedMealPlan.totalNutrition.carbs}{t('dashboard.meals.grams')}
-                    </div>
-                    <div className="text-sm text-gray-600">{t('dashboard.meals.carbs')}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">
-                      {personalizedMealPlan.totalNutrition.fat}{t('dashboard.meals.grams')}
-                    </div>
-                    <div className="text-sm text-gray-600">{t('dashboard.meals.fat')}</div>
-                  </div>
-                </div>
-              </div>
-            </>
+            </div>
           )}
         </div>
       )}
 
       {activeTab === 'timing' && (
         <div className="space-y-6">
-          {!mealTiming ? (
-            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
-              <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('common.loading')}</h3>
-              <p className="text-gray-600">{t('dashboard.timing.subtitle')}</p>
-            </div>
-          ) : (
-            <>
-              {/* Meal Timing Section */}
-              <div className="bg-white rounded-xl p-6 border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-amber-600" />
-                  {t('dashboard.timing.title')}
-                </h3>
-                
-                <div className="space-y-6">
-                  {/* Breakfast */}
-                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                    <h4 className="text-lg font-semibold text-yellow-800 mb-2">{t('dashboard.timing.breakfast.title')}</h4>
-                    <p className="text-yellow-700 text-sm mb-1">{t('dashboard.timing.breakfast.time')}</p>
-                    <p className="text-yellow-600 text-sm">{t('dashboard.timing.breakfast.description')}</p>
-                  </div>
-                  
-                  {/* Morning Snack */}
-                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <h4 className="text-lg font-semibold text-green-800 mb-2">{t('dashboard.timing.morningSnack.title')}</h4>
-                    <p className="text-green-700 text-sm mb-1">{t('dashboard.timing.morningSnack.time')}</p>
-                    <p className="text-green-600 text-sm">{t('dashboard.timing.morningSnack.description')}</p>
-                  </div>
-                  
-                  {/* Lunch */}
-                  <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                    <h4 className="text-lg font-semibold text-orange-800 mb-2">{t('dashboard.timing.lunch.title')}</h4>
-                    <p className="text-orange-700 text-sm mb-1">{t('dashboard.timing.lunch.time')}</p>
-                    <p className="text-orange-600 text-sm">{t('dashboard.timing.lunch.description')}</p>
-                  </div>
-                  
-                  {/* Afternoon Snack */}
-                  <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                    <h4 className="text-lg font-semibold text-purple-800 mb-2">{t('dashboard.timing.afternoonSnack.title')}</h4>
-                    <p className="text-purple-700 text-sm mb-1">{t('dashboard.timing.afternoonSnack.time')}</p>
-                    <p className="text-purple-600 text-sm">{t('dashboard.timing.afternoonSnack.description')}</p>
-                  </div>
-                  
-                  {/* Dinner */}
-                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                    <h4 className="text-lg font-semibold text-blue-800 mb-2">{t('dashboard.timing.dinner.title')}</h4>
-                    <p className="text-blue-700 text-sm mb-1">{t('dashboard.timing.dinner.time')}</p>
-                    <p className="text-blue-600 text-sm">{t('dashboard.timing.dinner.description')}</p>
-                  </div>
-                </div>
+          <div className="bg-white rounded-xl p-6 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-amber-600" />
+              {t('dashboard.timing.title')}
+            </h3>
+            
+            <div className="space-y-4">
+              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <h4 className="text-lg font-semibold text-yellow-800 mb-2">{t('dashboard.timing.breakfast.title')}</h4>
+                <p className="text-yellow-700 text-sm mb-1">{t('dashboard.timing.breakfast.time')}</p>
+                <p className="text-yellow-600 text-sm">{t('dashboard.timing.breakfast.description')}</p>
               </div>
               
-              {/* Timing Tips */}
-              <div className="bg-white rounded-xl p-6 border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <Info className="w-5 h-5 text-green-600" />
-                  {t('dashboard.timing.tips.title')}
-                </h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <span className="text-green-600 mt-1">•</span>
-                    <span className="text-gray-700">{t('dashboard.timing.tips.tip1')}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-green-600 mt-1">•</span>
-                    <span className="text-gray-700">{t('dashboard.timing.tips.tip2')}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-green-600 mt-1">•</span>
-                    <span className="text-gray-700">{t('dashboard.timing.tips.tip3')}</span>
-                  </li>
-                </ul>
+              <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h4 className="text-lg font-semibold text-green-800 mb-2">{t('dashboard.timing.morningSnack.title')}</h4>
+                <p className="text-green-700 text-sm mb-1">{t('dashboard.timing.morningSnack.time')}</p>
+                <p className="text-green-600 text-sm">{t('dashboard.timing.morningSnack.description')}</p>
               </div>
-            </>
-          )}
+              
+              <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                <h4 className="text-lg font-semibold text-orange-800 mb-2">{t('dashboard.timing.lunch.title')}</h4>
+                <p className="text-orange-700 text-sm mb-1">{t('dashboard.timing.lunch.time')}</p>
+                <p className="text-orange-600 text-sm">{t('dashboard.timing.lunch.description')}</p>
+              </div>
+              
+              <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <h4 className="text-lg font-semibold text-purple-800 mb-2">{t('dashboard.timing.afternoonSnack.title')}</h4>
+                <p className="text-purple-700 text-sm mb-1">{t('dashboard.timing.afternoonSnack.time')}</p>
+                <p className="text-purple-600 text-sm">{t('dashboard.timing.afternoonSnack.description')}</p>
+              </div>
+              
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 className="text-lg font-semibold text-blue-800 mb-2">{t('dashboard.timing.dinner.title')}</h4>
+                <p className="text-blue-700 text-sm mb-1">{t('dashboard.timing.dinner.time')}</p>
+                <p className="text-blue-600 text-sm">{t('dashboard.timing.dinner.description')}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl p-6 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Info className="w-5 h-5 text-green-600" />
+              {t('dashboard.timing.tips.title')}
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <span className="text-green-600 mt-1">•</span>
+                <span className="text-gray-700">{t('dashboard.timing.tips.tip1')}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-green-600 mt-1">•</span>
+                <span className="text-gray-700">{t('dashboard.timing.tips.tip2')}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-green-600 mt-1">•</span>
+                <span className="text-gray-700">{t('dashboard.timing.tips.tip3')}</span>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
 
       {activeTab === 'shopping' && (
         <div className="space-y-6">
-          {/* Shopping Overview */}
           <div className="bg-white rounded-xl p-6 border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-emerald-600" />
@@ -480,83 +501,110 @@ export const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({
             </p>
           </div>
           
-          {/* Recommended Grocery Stores */}
           <div className="bg-white rounded-xl p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-blue-600" />
-              {t('dashboard.shopping.groceryStores.title')}
-            </h3>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {(nearbyStores.length > 0 
-                ? nearbyStores.slice(0, 4).map(store => convertNearbyStoreToCentralStore(store))
-                : centralStoreService.getFeaturedStores().slice(0, 4)
-              ).map((store) => (
-                <CompactStoreCard
-                  key={store.id}
-                  store={store}
-                  className="h-fit"
-                />
-              ))}
-            </div>
-            {nearbyStores.length === 0 && (
-              <p className="text-sm text-secondary-dark mt-4 text-center">
-                📍 Visit the Shopping section to find stores near your location
-              </p>
-            )}
-          </div>
-          
-          {/* Shopping List */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.shopping.shoppingList.title')}</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.shopping.recommendedCategories')}</h3>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Fresh Produce */}
               <div>
                 <h4 className="font-medium text-gray-700 mb-3 flex items-center gap-2">
-                  🥬 {t('dashboard.shopping.shoppingList.produce.title')}
+                  🥬 Fresh Produce
                 </h4>
                 <ul className="space-y-2">
-                  {t('dashboard.shopping.shoppingList.produce.items').map((item, index) => (
-                    <li key={index} className="text-sm text-gray-600 flex items-center gap-2">
-                      <span className="text-green-600">•</span>
-                      {item}
-                    </li>
-                  ))}
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-green-600">•</span>
+                    {t('dashboard.shopping.produce.leafyGreens')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-green-600">•</span>
+                    {t('dashboard.shopping.produce.colorfulVegetables')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-green-600">•</span>
+                    {t('dashboard.shopping.produce.freshFruits')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-green-600">•</span>
+                    {t('dashboard.shopping.produce.herbs')}
+                  </li>
                 </ul>
               </div>
               
-              {/* Proteins */}
               <div>
                 <h4 className="font-medium text-gray-700 mb-3 flex items-center gap-2">
-                  🥩 {t('dashboard.shopping.shoppingList.proteins.title')}
+                  🥩 Lean Proteins
                 </h4>
                 <ul className="space-y-2">
-                  {t('dashboard.shopping.shoppingList.proteins.items').map((item, index) => (
-                    <li key={index} className="text-sm text-gray-600 flex items-center gap-2">
-                      <span className="text-red-600">•</span>
-                      {item}
-                    </li>
-                  ))}
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-red-600">•</span>
+                    {t('dashboard.shopping.proteins.chickenBreast')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-red-600">•</span>
+                    {t('dashboard.shopping.proteins.fishSeafood')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-red-600">•</span>
+                    {t('dashboard.shopping.proteins.eggs')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-red-600">•</span>
+                    {t('dashboard.shopping.proteins.plantBased')}
+                  </li>
                 </ul>
               </div>
               
-              {/* Pantry Items */}
               <div>
                 <h4 className="font-medium text-gray-700 mb-3 flex items-center gap-2">
-                  🏺 {t('dashboard.shopping.shoppingList.pantry.title')}
+                  🏺 Pantry Staples
                 </h4>
                 <ul className="space-y-2">
-                  {t('dashboard.shopping.shoppingList.pantry.items').map((item, index) => (
-                    <li key={index} className="text-sm text-gray-600 flex items-center gap-2">
-                      <span className="text-amber-600">•</span>
-                      {item}
-                    </li>
-                  ))}
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-amber-600">•</span>
+                    {t('dashboard.shopping.pantry.wholeGrains')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-amber-600">•</span>
+                    {t('dashboard.shopping.pantry.healthyOils')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-amber-600">•</span>
+                    {t('dashboard.shopping.pantry.nutsSeeds')}
+                  </li>
+                  <li className="text-sm text-gray-600 flex items-center gap-2">
+                    <span className="text-amber-600">•</span>
+                    {t('dashboard.shopping.pantry.spicesSeasonings')}
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
+
+          {nearbyStores.length > 0 && (
+            <div className="bg-white rounded-xl p-6 border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.shopping.nearbyStores')}</h3>
+              <p className="text-gray-600 mb-6">
+                {t('dashboard.shopping.storesFound').replace('${count}', nearbyStores.length.toString())}
+              </p>
+              
+              {/* Store Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {nearbyStores.map((store) => (
+                  <CompactStoreCard
+                    key={store.id}
+                    store={convertNearbyStoreToCentralStore(store)}
+                    onGetDirections={(centralStore) => {
+                      console.log('🧭 Getting directions to store from dashboard:', centralStore.name);
+                      // Open directions in new tab/app
+                      if (centralStore.location) {
+                        const directionsUrl = `https://www.google.com/maps/dir//${centralStore.location.lat},${centralStore.location.lng}`;
+                        window.open(directionsUrl, '_blank');
+                      }
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

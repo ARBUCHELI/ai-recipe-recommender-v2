@@ -7,14 +7,15 @@ interface LanguageSwitcherProps {
 }
 
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) => {
-  const { language, setLanguage } = useTranslation();
+  const { currentLanguage, setLanguage } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Define available languages locally
   const languages = {
     en: { name: 'English', flag: '🇺🇸' },
-    es: { name: 'Español', flag: '🇪🇸' }
+    es: { name: 'Español', flag: '🇪🇸' },
+    //ru: { name: "Русский", flag: "🇷🇺" }
   };
 
   // Close dropdown when clicking outside
@@ -45,8 +46,8 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = 
         aria-haspopup="true"
       >
         <Globe className="w-4 h-4 mr-2 text-brand-primary" />
-        <span className="mr-1">{languages[language as keyof typeof languages]?.flag}</span>
-        <span className="hidden sm:inline">{languages[language as keyof typeof languages]?.name}</span>
+        <span className="mr-1">{languages[currentLanguage as keyof typeof languages]?.flag}</span>
+        <span className="hidden sm:inline">{languages[currentLanguage as keyof typeof languages]?.name}</span>
         <ChevronDown 
           className={`ml-2 h-4 w-4 transition-transform duration-200 ${
             isOpen ? 'transform rotate-180' : ''
@@ -63,7 +64,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = 
                 key={code}
                 onClick={() => handleLanguageChange(code as LanguageCode)}
                 className={`group flex items-center px-4 py-2 text-sm w-full text-left transition-colors duration-150 ${
-                  code === language
+                  code === currentLanguage
                     ? 'bg-brand-primary text-white'
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                 }`}
@@ -71,7 +72,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = 
               >
                 <span className="mr-3 text-lg">{langData.flag}</span>
                 <span className="font-medium">{langData.name}</span>
-                {code === language && (
+                {code === currentLanguage && (
                   <div className="ml-auto">
                     <div className="h-2 w-2 bg-white rounded-full"></div>
                   </div>

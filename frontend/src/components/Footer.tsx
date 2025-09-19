@@ -14,10 +14,13 @@ export const Footer: React.FC = () => {
             
             <div className="space-y-2">
               <p className="text-lg font-semibold text-foreground">
-                AI-Powered App Designed by:
+                AI-Powered App Designed and Developed by:
               </p>
               <p className="text-xl font-bold text-primary">
                 Andrés R. Bucheli
+              </p>
+              <p className="text-xl font-bold text-foreground">
+                AI Developer
               </p>
             </div>
           </div>
@@ -28,7 +31,7 @@ export const Footer: React.FC = () => {
             <span>•</span>
             <span>All rights reserved</span>
             <span>•</span>
-            <span className="font-medium">AI Recipe Recommender</span>
+            <span className="font-medium">NutriAgent</span>
           </div>
           
           {/* Decorative Elements */}

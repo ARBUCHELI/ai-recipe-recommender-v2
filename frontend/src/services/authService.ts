@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+import { googleOAuthService } from './googleOAuthService';
 
 export interface User {
   id: string;
@@ -241,6 +242,49 @@ class AuthService {
     return await this.makeRequest('/api/auth/avatar', {
       method: 'DELETE',
     });
+  }
+
+  /**
+   * Sign in with Google OAuth
+   */
+  async loginWithGoogle(): Promise<AuthResponse> {
+    try {
+      const response = await googleOAuthService.signInWithGoogle();
+      
+      if (response.success && response.token) {
+        this.setToken(response.token);
+        return {
+          success: true,
+          user: response.user,
+          token: response.token,
+        };
+      } else {
+        return {
+          success: false,
+          message: response.message || 'Google authentication failed',
+        };
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : 'Google authentication failed',
+      };
+    }
+  }
+
+  /**
+   * Enhanced logout that also signs out from Google
+   */
+  async logoutWithGoogle(): Promise<void> {
+    try {
+      await googleOAuthService.signOut();
+    } catch (error) {
+      console.error('Google sign out error:', error);
+    }
+    
+    // Call regular logout
+    this.logout();
   }
 }
 

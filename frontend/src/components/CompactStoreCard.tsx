@@ -73,13 +73,13 @@ export const CompactStoreCard: React.FC<CompactStoreCardProps> = ({
           </div>
         </div>
 
-        {/* Rating */}
-        <div className="flex items-center gap-2 mb-4 p-2 bg-neutral-50 rounded-lg">
+        {/* Store Status - No synthetic ratings to avoid confusion */}
+        <div className="flex items-center gap-2 mb-4 p-2 bg-green-50 rounded-lg border border-green-200">
           <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 fill-warning text-warning" />
-            <span className="text-sm font-bold text-warning">{store.rating}</span>
+            <Star className="h-4 w-4 fill-success text-success" />
+            <span className="text-sm font-bold text-success">Verified Location</span>
           </div>
-          <div className="text-xs text-secondary-dark">Google Rating</div>
+          <div className="text-xs text-gray-600">Nearby Store</div>
         </div>
 
         {/* Features Preview */}
@@ -156,10 +156,10 @@ export const CompactStoreCard: React.FC<CompactStoreCardProps> = ({
                 <span className="font-medium text-primary-dark">{store.distance}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-secondary-dark">Rating:</span>
+                <span className="text-secondary-dark">Status:</span>
                 <div className="flex items-center gap-1">
-                  <Star className="h-3 w-3 fill-warning text-warning" />
-                  <span className="font-medium text-primary-dark">{store.rating}/5</span>
+                  <Star className="h-3 w-3 fill-success text-success" />
+                  <span className="font-medium text-success">Verified</span>
                 </div>
               </div>
             </div>

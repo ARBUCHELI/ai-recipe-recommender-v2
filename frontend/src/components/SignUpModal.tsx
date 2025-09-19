@@ -3,9 +3,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { User, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { GoogleSignInButton } from './GoogleSignInButton';
 
 interface SignUpModalProps {
   open: boolean;
@@ -29,6 +31,9 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
   const [validationError, setValidationError] = useState('');
   const { register, isLoading, error, clearError } = useAuth();
   const { t } = useTranslation();
+  
+  // Check if Google OAuth is configured
+  const isGoogleConfigured = !!import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -103,7 +108,34 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
           </DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <div className="space-y-4 mt-4">
+          {/* Google Sign In Section - only show if configured */}
+          {isGoogleConfigured && (
+            <>
+              <GoogleSignInButton
+                onSuccess={() => {
+                  // Reset form and close modal on success
+                  setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+                  setShowPassword(false);
+                  setShowConfirmPassword(false);
+                  onOpenChange(false);
+                }}
+              />
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator className="w-full" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    {t('forms.labels.orCreateWith', 'Or create account with email')}
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+        
+          <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-foreground">{t('forms.labels.name')}</Label>
             <div className="relative">
@@ -216,7 +248,8 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
               </button>
             </p>
           </div>
-        </form>
+          </form>
+        </div>
       </DialogContent>
     </Dialog>
   );

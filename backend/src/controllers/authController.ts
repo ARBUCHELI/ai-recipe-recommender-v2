@@ -81,4 +81,36 @@ export class AuthController {
       });
     }
   }
+
+  async googleCallback(req: Request, res: Response) {
+    try {
+      const { idToken } = req.body;
+      
+      if (!idToken) {
+        return res.status(400).json({
+          success: false,
+          message: 'Google ID token is required'
+        });
+      }
+      
+      const result = await authService.googleOAuth(idToken);
+      
+      if (!result.success) {
+        return res.status(400).json(result);
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Google authentication successful',
+        user: result.user,
+        token: result.token
+      });
+    } catch (error) {
+      console.error('Google OAuth controller error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  }
 }

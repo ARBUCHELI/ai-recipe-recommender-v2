@@ -55,8 +55,7 @@ export class IngredientService {
       let ingredient = await prisma.ingredient.findFirst({
         where: { 
           name: { 
-            equals: ingredientData.name.toLowerCase(),
-            mode: 'insensitive'
+            equals: ingredientData.name.toLowerCase()
           }
         }
       });
@@ -242,8 +241,7 @@ export class IngredientService {
         OR: [
           {
             name: {
-              contains: query.toLowerCase(),
-              mode: 'insensitive'
+              contains: query.toLowerCase()
             }
           }
         ]
@@ -327,8 +325,7 @@ export class IngredientService {
       const existing = await prisma.ingredient.findFirst({
         where: {
           name: {
-            equals: ingredientData.name.toLowerCase(),
-            mode: 'insensitive'
+            equals: ingredientData.name.toLowerCase()
           }
         }
       });

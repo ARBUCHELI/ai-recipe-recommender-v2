@@ -5,13 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { FeaturedReviews } from './reviews/FeaturedReviews';
 import foodBackgroundImg from '@/assets/food-background.jpg';
 
 interface HomePageProps {
   onGetStarted: () => void;
+  onViewReviews?: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onGetStarted }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onGetStarted, onViewReviews }) => {
   const [showSampleRecipe, setShowSampleRecipe] = useState(false);
   const { t } = useTranslation();
 
@@ -320,38 +322,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onGetStarted }) => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Featured Reviews Section */}
       <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-primary-dark mb-4">
-              {t('homepage.testimonials.title')}
-            </h2>
-            <p className="text-xl text-secondary-dark font-medium">
-              {t('homepage.testimonials.subtitle')}
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-professional-lg transition-all duration-300 bg-card border-neutral shadow-professional-md">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-warning text-warning" />
-                    ))}
-                  </div>
-                  <p className="text-secondary-dark mb-6 leading-relaxed italic font-medium">
-                    "{testimonial.content}"
-                  </p>
-                  <div>
-                    <p className="font-semibold text-primary-dark">{testimonial.name}</p>
-                    <p className="text-sm text-secondary-dark">{testimonial.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="max-w-6xl mx-auto">
+          <FeaturedReviews onViewAllReviews={onViewReviews} />
         </div>
       </section>
 

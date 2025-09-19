@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChefHat, Upload, BookOpen, ShoppingCart, Settings, Download, Home, Menu, X, LogIn, UserPlus, Heart } from 'lucide-react';
+import { ChefHat, Upload, BookOpen, ShoppingCart, Settings, Download, Home, Menu, X, LogIn, UserPlus, Heart, Star, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SignInModal } from './SignInModal';
 import { SignUpModal } from './SignUpModal';
@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
-export type TabType = 'home' | 'upload' | 'recipes' | 'shopping' | 'health' | 'admin' | 'export';
+export type TabType = 'home' | 'upload' | 'recipes' | 'shopping' | 'health' | 'reviews' | 'analytics' | 'admin' | 'export';
 
 interface NavigationProps {
   activeTab: TabType;
@@ -33,6 +33,8 @@ export const Navigation: React.FC<NavigationProps> = ({
     { id: 'recipes' as TabType, label: t('navigation.recipes', 'Recipes'), icon: BookOpen, badge: recipeCount > 0 ? recipeCount : undefined, iconColor: 'text-warning' },
     { id: 'shopping' as TabType, label: t('navigation.shopping', 'Shopping'), icon: ShoppingCart, iconColor: 'text-info' },
     { id: 'health' as TabType, label: t('navigation.health', 'Health'), icon: Heart, iconColor: 'text-red-500' },
+    { id: 'reviews' as TabType, label: t('navigation.reviews', 'Reviews'), icon: Star, iconColor: 'text-warning' },
+    { id: 'analytics' as TabType, label: t('navigation.analytics', 'Analytics'), icon: BarChart3, iconColor: 'text-blue-600' },
     { id: 'admin' as TabType, label: t('navigation.admin', 'Admin'), icon: Settings, iconColor: 'text-secondary-dark' },
     { id: 'export' as TabType, label: t('navigation.export', 'Export'), icon: Download, iconColor: 'text-error' }
   ];
@@ -72,13 +74,16 @@ export const Navigation: React.FC<NavigationProps> = ({
               <div className="btn-primary p-2 rounded-lg shadow-professional-md hover:shadow-professional-lg transition-all duration-300 hover:scale-105">
                 <ChefHat className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
-              <h1 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-bold text-primary-dark">
-                <span className="hidden xs:inline">AI Recipe Recommender</span>
-                <span className="xs:hidden">AI Recipes</span>
+              <h1 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-bold text-primary-dark flex items-baseline gap-2 sm:gap-3">
+                <span>NutriAgent</span>
+                <span className="text-xs xs:text-sm text-muted-foreground font-medium">
+                  <span className="hidden sm:inline">AI Health & Meal Planning Assistant</span>
+                  <span className="sm:hidden">AI Health Assistant</span>
+                </span>
               </h1>
             </div>
             
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Show on smaller screens */}
             <div className="lg:hidden">
               <Button
                 variant="ghost"
@@ -95,20 +100,19 @@ export const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
 
-          {/* Second Line: Navigation + Language + Auth (Desktop Only) */}
-          <div className="hidden lg:flex items-center justify-between py-3">
-            {/* Navigation Items */}
-            <nav className="flex space-x-1 sm:space-x-2">
+          {/* Second Line: Navigation Only (Desktop Only) */}
+          <div className="hidden lg:block py-2">
+            <nav className="flex justify-center gap-2">
               {navItems.map((item) => (
                 <Button
                   key={item.id}
                   variant={activeTab === item.id ? "default" : "ghost"}
                   onClick={() => handleTabChange(item.id)}
-                  className={`relative hover:scale-105 transition-transform ${item.badge ? 'pr-8' : ''}`}
+                  className={`relative hover:scale-105 transition-transform whitespace-nowrap ${item.badge ? 'pr-8' : ''}`}
                   size="sm"
                 >
                   <item.icon className={`h-4 w-4 mr-2 ${activeTab === item.id ? 'text-white' : item.iconColor}`} />
-                  <span className="hidden sm:inline">{item.label}</span>
+                  <span className="text-sm">{item.label}</span>
                   {item.badge && (
                     <span className="absolute -top-1 -right-2 bg-error text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-professional-sm font-medium">
                       {item.badge}
@@ -117,48 +121,48 @@ export const Navigation: React.FC<NavigationProps> = ({
                 </Button>
               ))}
             </nav>
+          </div>
+
+          {/* Third Line: Language + Auth (Desktop Only) */}
+          <div className="hidden lg:flex items-center justify-end py-2 border-t border-border/50">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
             
-            {/* Right Side: Language + Auth */}
-            <div className="flex items-center space-x-3">
-              {/* Language Switcher */}
-              <LanguageSwitcher />
-              
-              {/* Auth Section */}
-              <div className="flex items-center space-x-2 pl-3 border-l border-border">
-                {isAuthenticated ? (
-                  <div className="flex items-center space-x-3">
-                    <div className="hidden xl:flex flex-col items-end">
-                      <span className="text-sm font-medium text-foreground">
-                        {t('forms.labels.welcomeBack', 'Welcome back!')}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {user?.name}
-                      </span>
-                    </div>
-                    <UserProfileDropdown />
+            {/* Auth Section */}
+            <div className="flex items-center space-x-2 pl-3 border-l border-border ml-3">
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-3">
+                  <div className="hidden lg:flex flex-col items-end">
+                    <span className="text-sm font-medium text-foreground">
+                      {t('forms.labels.welcomeBack', 'Welcome back!')}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {user?.name}
+                    </span>
                   </div>
-                ) : (
-                  <>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleSignInOpen}
-                      className="flex items-center border-neutral text-secondary-dark hover:bg-neutral-50 hover:border-brand transition-all duration-300 shadow-professional-sm hover:shadow-professional-md"
-                    >
-                      <LogIn className="h-4 w-4 mr-2 text-brand-primary" />
-                      {t('forms.buttons.login')}
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={handleSignUpOpen}
-                      className="btn-primary flex items-center shadow-professional-md hover:shadow-professional-lg transition-all duration-300 text-white font-medium"
-                    >
-                      <UserPlus className="h-4 w-4 mr-2" />
-                      {t('forms.buttons.register')}
-                    </Button>
-                  </>
-                )}
-              </div>
+                  <UserProfileDropdown />
+                </div>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSignInOpen}
+                    className="flex items-center border-neutral text-secondary-dark hover:bg-neutral-50 hover:border-brand transition-all duration-300 shadow-professional-sm hover:shadow-professional-md"
+                  >
+                    <LogIn className="h-4 w-4 mr-2 text-brand-primary" />
+                    {t('forms.buttons.login')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleSignUpOpen}
+                    className="btn-primary flex items-center shadow-professional-md hover:shadow-professional-lg transition-all duration-300 text-white font-medium"
+                  >
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    {t('forms.buttons.register')}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 

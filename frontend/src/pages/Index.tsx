@@ -15,8 +15,13 @@ import { PDFExport } from '@/components/PDFExport';
 import { Footer } from '@/components/Footer';
 import { HealthProfileModal } from '@/components/HealthProfileModal';
 import { PersonalizedDashboard } from '@/components/PersonalizedDashboard';
+import { ReviewsPage } from '@/components/reviews/ReviewsPage';
+import { FeaturedReviews } from '@/components/reviews/FeaturedReviews';
+import { AnalyticsTab } from '@/components/analytics/AnalyticsTab';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 import { AIService, Recipe, Ingredient } from '@/services/aiService';
+import { enhancedAIService } from '@/services/enhancedAIService';
 import { recipeService } from '@/services/recipeService';
 import { ingredientService } from '@/services/ingredientService';
 import { LocalStorageService } from '@/utils/localStorage';
@@ -31,11 +36,17 @@ const Index = () => {
   const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
   const [categories, setCategories] = useState(LocalStorageService.getCategories());
   const [showHealthProfileModal, setShowHealthProfileModal] = useState(false);
+  
+  // Debug modal state changes
+  useEffect(() => {
+    console.log('📺 Health Profile Modal state changed:', showHealthProfileModal);
+  }, [showHealthProfileModal]);
   const [healthProfile, setHealthProfile] = useState<UserHealthProfile | null>(null);
   const [nearbyStores, setNearbyStores] = useState<any[]>([]);
   
   const { toast } = useToast();
   const { user, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const aiService = AIService.getInstance();
 
   // Load user-specific data when user changes
@@ -187,25 +198,128 @@ const Index = () => {
 
     setIsGenerating(true);
     try {
-      // Generate meal plan with auto-save enabled
-      const mealPlan = await aiService.generateMealPlan(uploadedIngredients, 3, true);
+      console.log('🍲 Starting AI-powered 3-day meal plan generation with ingredients:', uploadedIngredients);
+      
+      // Initialize AI service if needed
+      console.log('🤖 Initializing Enhanced AI Service...');
+      try {
+        await enhancedAIService.initialize((status) => {
+          console.log('🔄 AI Status:', status);
+        });
+        console.log('✅ Enhanced AI Service initialized successfully!');
+      } catch (initError) {
+        console.error('❌ Enhanced AI initialization failed:', initError);
+        throw new Error(`AI Initialization failed: ${initError.message}`);
+      }
+      
+      // Create different ingredient combinations for variety
+      const baseIngredients = uploadedIngredients.map(ing => ing.name);
+      
+      // Generate 3 different recipes with varying ingredients and contexts
+      const recipes: Recipe[] = [];
+      
+      for (let day = 0; day < 3; day++) {
+        // Create variety by shuffling ingredients and adding different contexts
+        const shuffledIngredients = [...baseIngredients].sort(() => Math.random() - 0.5);
+        const primaryIngredients = shuffledIngredients.slice(0, Math.min(4, shuffledIngredients.length));
+        
+        // Create unique context for each day
+        const userContext = {
+          day: day + 1,
+          creativity: 0.7 + (day * 0.1), // Increasing creativity each day
+          cuisineHint: ['mediterranean', 'asian', 'american', 'mexican', 'italian'][day % 5],
+          cookingStyle: ['grilled', 'roasted', 'sautéed', 'steamed', 'baked'][day % 5],
+          mealComplexity: ['simple', 'moderate', 'elaborate'][day % 3],
+          timestamp: Date.now() + (day * 1000) // Unique timestamp for each
+        };
+        
+        console.log(`🍴 Generating Day ${day + 1} recipe with ingredients:`, primaryIngredients, 'context:', userContext);
+        
+        // Generate AI recipe with variety
+        const aiResult = await enhancedAIService.generateSimpleRecipe(
+          primaryIngredients,
+          450 + (day * 50), // Vary calories: 450, 500, 550
+          userContext,
+          'main-course'
+        );
+        
+        // Convert AI result to Recipe format and save
+        const recipe: Recipe = {
+          id: `day-${day + 1}-recipe-${Date.now()}-${day}`,
+          name: `Day ${day + 1}: ${aiResult.name}`,
+          description: aiResult.description,
+          ingredients: aiResult.ingredients,
+          instructions: aiResult.instructions,
+          prepTime: 15 + (day * 5),
+          cookTime: 20 + (day * 10),
+          servings: 2 + day, // Vary servings: 2, 3, 4
+          nutrition: {
+            calories: 450 + (day * 50),
+            protein: 25 + (day * 5),
+            carbs: 35 + (day * 8),
+            fat: 15 + (day * 3)
+          }
+        };
+        
+        console.log(`✅ Generated Day ${day + 1} recipe:`, recipe.name);
+        
+        // Save each recipe to the database
+        try {
+          const saveResult = await aiService.saveGeneratedRecipe(recipe);
+          if (saveResult.success && saveResult.savedRecipe) {
+            recipes.push(saveResult.savedRecipe);
+            console.log(`💾 Saved Day ${day + 1} recipe to database`);
+          } else {
+            recipes.push(recipe); // Use the generated recipe if save fails
+            console.warn(`⚠️ Failed to save Day ${day + 1} recipe, keeping in memory:`, saveResult.message);
+          }
+        } catch (error) {
+          recipes.push(recipe); // Use the generated recipe if save fails
+          console.error(`❌ Error saving Day ${day + 1} recipe:`, error);
+        }
+        
+        // Small delay between generations for variety
+        if (day < 2) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
       
       // Refresh the recipes list to show the saved recipes
       await loadUserRecipes();
       
       toast({
-        title: "Meal Plan Generated & Saved!",
-        description: `Created a 3-day meal plan with ${mealPlan.recipes.length} recipes and saved them to your account.`
+        title: "AI Success! 🧠",
+        description: `Created a diverse 3-day meal plan with ${recipes.length} unique AI-generated recipes!`
       });
+      
+      console.log('✅ AI-powered 3-day meal plan completed:', recipes.map(r => r.name));
       
       // Auto-switch to recipes tab
       setActiveTab('recipes');
     } catch (error) {
-      toast({
-        title: "Generation Failed",
-        description: "Failed to generate meal plan. Please try again.",
-        variant: "destructive"
-      });
+      console.error('❌ AI meal plan generation failed:', error);
+      
+      // Fallback to the original method if AI fails
+      console.log('🔄 AI failed, using fallback meal plan generation...');
+      try {
+        const fallbackPlan = await aiService.generateMealPlan(uploadedIngredients, 3, true);
+        await loadUserRecipes();
+        
+        toast({
+          title: "Fallback Plan Generated",
+          description: `AI temporarily unavailable. Created a 3-day meal plan with ${fallbackPlan.recipes.length} recipes using fallback method.`,
+          variant: "destructive"
+        });
+        
+        setActiveTab('recipes');
+      } catch (fallbackError) {
+        console.error('❌ Fallback meal plan generation also failed:', fallbackError);
+        toast({
+          title: "Generation Failed",
+          description: "Failed to generate meal plan. Please try again.",
+          variant: "destructive"
+        });
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -274,17 +388,26 @@ const Index = () => {
 
   const handleHealthProfileSubmit = (profile: UserHealthProfile) => {
     console.log('💪 Health profile submitted:', profile);
+    console.log('💾 Setting health profile in state...');
     setHealthProfile(profile);
+    console.log('❌ Closing health profile modal...');
     setShowHealthProfileModal(false);
     
+    console.log('✅ Showing success toast...');
     toast({
       title: "Health Profile Saved!",
       description: "Your personalized health recommendations are now available."
     });
+    console.log('✅ Health profile submission completed successfully!');
   };
 
   const openHealthProfileModal = () => {
+    console.log('🩺 Health profile modal button clicked!');
+    console.log('📊 Current authentication status:', isAuthenticated);
+    console.log('👤 Current user:', user);
+    
     if (!isAuthenticated) {
+      console.log('❌ User not authenticated, showing sign-in message');
       toast({
         title: "Please Sign In",
         description: "You need to be signed in to create a health profile.",
@@ -292,13 +415,15 @@ const Index = () => {
       });
       return;
     }
+    
+    console.log('✅ Opening health profile modal...');
     setShowHealthProfileModal(true);
   };
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'home':
-        return <HomePage onGetStarted={() => setActiveTab('upload')} />;
+        return <HomePage onGetStarted={() => setActiveTab('upload')} onViewReviews={() => setActiveTab('reviews')} />;
 
       case 'upload':
         return (
@@ -311,7 +436,7 @@ const Index = () => {
             
             {uploadedIngredients.length > 0 && (
               <Card className="p-6 shadow-soft animate-slide-up">
-                <h3 className="text-lg font-semibold mb-4">Generate Recipes</h3>
+                <h3 className="text-lg font-semibold mb-4">{t('recipes.generateRecipesHeader')}</h3>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <Button
                     onClick={generateSingleRecipe}
@@ -323,7 +448,7 @@ const Index = () => {
                     ) : (
                       <Sparkles className="h-4 w-4 mr-2" />
                     )}
-                    Generate Recipe
+                    {t('recipes.generateRecipe')}
                   </Button>
                   
                   <Button
@@ -336,8 +461,8 @@ const Index = () => {
                     ) : (
                       <Calendar className="h-4 w-4 mr-2" />
                     )}
-                    <span className="hidden xs:inline">Generate 3-Day Plan</span>
-                    <span className="xs:hidden">3-Day Plan</span>
+                    <span className="hidden xs:inline">{t('recipes.generate3DayPlan')}</span>
+                    <span className="xs:hidden">{t('recipes.generate3DayPlan')}</span>
                   </Button>
                 </div>
               </Card>
@@ -356,7 +481,7 @@ const Index = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-foreground">
-                {isAuthenticated ? `Your Recipes (${recipes.length})` : 'Your Recipes'}
+                {isAuthenticated ? `${t('recipes.yourRecipes')} (${recipes.length})` : t('recipes.yourRecipes')}
               </h2>
               <div className="flex gap-2">
                 {isAuthenticated && (
@@ -367,12 +492,12 @@ const Index = () => {
                     className="flex items-center gap-2"
                   >
                     <RefreshCw className={`h-4 w-4 ${isLoadingRecipes ? 'animate-spin' : ''}`} />
-                    Refresh
+                    {t('common.refresh')}
                   </Button>
                 )}
                 {recipes.length > 0 && (
                   <Button variant="outline" onClick={clearAllRecipes}>
-                    Refresh All
+                    {t('recipes.refreshAll')}
                   </Button>
                 )}
               </div>
@@ -426,12 +551,12 @@ const Index = () => {
       case 'shopping':
         return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-foreground">Shopping List</h2>
+            <h2 className="text-2xl font-bold text-foreground">{t('shoppingList.title')}</h2>
             <ShoppingList recipes={recipes} categories={categories} />
             
             {/* Nearby Stores Section */}
             <div className="mt-8 pt-6 border-t border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Find Nearby Stores</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">{t('nearbyStores.title')}</h2>
               <NearbyStores onStoresFound={setNearbyStores} />
             </div>
           </div>
@@ -477,10 +602,20 @@ const Index = () => {
           </div>
         );
 
+      case 'reviews':
+        return (
+          <div className="space-y-6">
+            <ReviewsPage onBack={() => setActiveTab('home')} />
+          </div>
+        );
+
+      case 'analytics':
+        return <AnalyticsTab />;
+
       case 'admin':
         return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-foreground">Admin Panel</h2>
+            <h2 className="text-2xl font-bold text-foreground">{t('admin.title')}</h2>
             <AdminPanel />
           </div>
         );
@@ -488,7 +623,7 @@ const Index = () => {
       case 'export':
         return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-foreground">Export PDF</h2>
+            <h2 className="text-2xl font-bold text-foreground">{t('export.title')}</h2>
             <PDFExport recipes={recipes} categories={categories} />
           </div>
         );
@@ -517,7 +652,10 @@ const Index = () => {
       {/* Health Profile Modal */}
       <HealthProfileModal 
         open={showHealthProfileModal}
-        onClose={() => setShowHealthProfileModal(false)}
+        onClose={() => {
+          console.log('💫 Closing health profile modal via onClose...');
+          setShowHealthProfileModal(false);
+        }}
         onSubmit={handleHealthProfileSubmit}
         initialData={healthProfile || undefined}
       />

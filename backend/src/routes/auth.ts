@@ -19,6 +19,11 @@ router.post('/register', authController.register);
 // @access  Public
 router.post('/login', authController.login);
 
+// @route   POST /api/auth/google/callback
+// @desc    Google OAuth callback
+// @access  Public
+router.post('/google/callback', authController.googleCallback);
+
 // @route   GET /api/auth/me
 // @desc    Get current user
 // @access  Private

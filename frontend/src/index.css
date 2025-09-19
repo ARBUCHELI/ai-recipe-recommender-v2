@@ -249,6 +249,13 @@ All colors MUST be HSL.
   .text-error { color: hsl(var(--error-red)); }
   .text-info { color: hsl(var(--info-blue)); }
   
+  /* Fill colors for SVG icons */
+  .fill-brand-primary { fill: hsl(var(--brand-orange)); }
+  .fill-success { fill: hsl(var(--success-green)); }
+  .fill-warning { fill: hsl(var(--warning-amber)); }
+  .fill-error { fill: hsl(var(--error-red)); }
+  .fill-info { fill: hsl(var(--info-blue)); }
+  
   /* High contrast text utilities */
   .text-primary-dark { color: hsl(var(--neutral-800)); }
   .text-secondary-dark { color: hsl(var(--neutral-600)); }
@@ -462,6 +469,43 @@ All colors MUST be HSL.
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+  }
+  
+  /* Scrollbar hiding utilities */
+  .scrollbar-hide {
+    /* Firefox */
+    scrollbar-width: none;
+    /* Safari and Chrome */
+    -ms-overflow-style: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Optional: thin scrollbar for better UX */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--neutral-300)) hsl(var(--neutral-100));
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: hsl(var(--neutral-100));
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--neutral-300));
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--neutral-400));
   }
 }
 

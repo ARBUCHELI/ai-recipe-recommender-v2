@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="#ff6b35" stroke="#e55a2b" stroke-width="2"/>
+  
+  <!-- Chef hat -->
+  <path d="M12 8c0-2.2 1.8-4 4-4s4 1.8 4 4c1.1 0 2 .9 2 2s-.9 2-2 2H12c-1.1 0-2-.9-2-2s.9-2 2-2z" fill="white"/>
+  <rect x="11" y="12" width="10" height="6" rx="1" fill="white"/>
+  
+  <!-- Chef hat details -->
+  <circle cx="14" cy="8" r="1" fill="#ff6b35"/>
+  <circle cx="18" cy="7" r="0.8" fill="#ff6b35"/>
+  <circle cx="16" cy="6" r="0.6" fill="#ff6b35"/>
+  
+  <!-- Utensils -->
+  <g fill="white" stroke="#ff6b35" stroke-width="0.5">
+    <!-- Fork -->
+    <rect x="8" y="20" width="0.8" height="8" rx="0.4"/>
+    <rect x="7.6" y="20" width="0.3" height="3"/>
+    <rect x="8.5" y="20" width="0.3" height="3"/>
+    
+    <!-- Spoon -->
+    <rect x="23.2" y="22" width="0.8" height="6" rx="0.4"/>
+    <ellipse cx="23.6" cy="21" rx="1" ry="1.5"/>
+  </g>
+  
+  <!-- Sparkle for AI theme -->
+  <g fill="white">
+    <circle cx="26" cy="8" r="1"/>
+    <rect x="25.5" y="6.5" width="1" height="3"/>
+    <rect x="24.5" y="7.5" width="3" height="1"/>
+  </g>
+</svg>

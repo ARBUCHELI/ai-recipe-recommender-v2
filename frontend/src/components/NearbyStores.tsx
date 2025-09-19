@@ -11,6 +11,7 @@ import { StoreCard } from './StoreCard';
 import { NearbyStore, UserLocation, overpassService } from '@/services/overpassService';
 import { locationService, LocationResult } from '@/services/locationService';
 import { CentralStore, centralStoreService, convertNearbyStoreToCentralStore } from '@/services/centralStoreService';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface NearbyStoresProps {
   className?: string;
@@ -33,6 +34,7 @@ export const NearbyStores: React.FC<NearbyStoresProps> = ({
   const [locationPermissionDenied, setLocationPermissionDenied] = useState(false);
   
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if we have a cached location on mount
@@ -166,10 +168,10 @@ export const NearbyStores: React.FC<NearbyStoresProps> = ({
         <CardHeader>
           <CardTitle className="text-xl font-bold text-primary-dark flex items-center gap-2">
             <MapPin className="h-6 w-6 text-brand-primary" />
-            Nearby Supermarkets
+            {t('nearbyStores.nearby')}
           </CardTitle>
           <p className="text-secondary-dark">
-            Find grocery stores and supermarkets near you for convenient shopping.
+            {t('nearbyStores.description')}
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -186,10 +188,10 @@ export const NearbyStores: React.FC<NearbyStoresProps> = ({
                 ) : (
                   <NavigationIcon className="h-4 w-4 mr-2" />
                 )}
-                Find Nearby Stores
+                {t('nearbyStores.findStoresButton')}
               </Button>
               <p className="text-sm text-secondary-dark mt-2">
-                We'll request permission to access your location
+                {t('nearbyStores.locationPermissionPrompt')}
               </p>
             </div>
           )}

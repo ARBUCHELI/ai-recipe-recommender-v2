@@ -1,0 +1,29 @@
+My Shopping List
+
+2 cups flour
+1 cup milk
+3 tbsp olive oil
+4 pieces chicken breast
+1 tsp salt
+2 cloves garlic
+1 onion
+2 tomatoes
+1 lb ground beef
+2 cups rice
+1 cup cheese
+3 eggs
+2 tbsp butter
+
+Alternative format:
+Flour: 2 cups
+Milk: 1 cup
+Olive oil: 3 tbsp
+Salt: 1 tsp
+
+Bulleted list:
+• 2 cups rice  
+• 1 lb ground beef
+• 3 tomatoes
+- 1 onion
+- 2 tbsp butter
+* 3 eggs
