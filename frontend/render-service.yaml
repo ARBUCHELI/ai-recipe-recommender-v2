@@ -9,9 +9,7 @@ services:
     plan: free
     branch: main  # or your main branch name
     rootDir: ./frontend
-    buildCommand: |
-      npm install
-      npm run build
+    buildCommand: yarn build
     staticPublishPath: ./dist
     
     # Environment variables for build process

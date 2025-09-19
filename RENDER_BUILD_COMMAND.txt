@@ -1,0 +1,13 @@
+Render Build Command for NutriAgent AI Backend:
+
+npm install && npm run build && npx prisma db push
+
+---
+
+This command:
+1. Installs all dependencies (including TypeScript and type definitions)
+2. Compiles TypeScript code and generates Prisma client
+3. Pushes database schema to PostgreSQL on Render
+
+Use this exact command in your Render backend service configuration.
+No more migration errors! 🚀

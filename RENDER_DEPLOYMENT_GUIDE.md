@@ -60,7 +60,7 @@ GOOGLE_CLIENT_SECRET=<your-google-oauth-client-secret>
    - **Region**: `Oregon (US West)`
    - **Branch**: `main`
    - **Root Directory**: `frontend`
-   - **Build Command**: `npm install && npm run build`
+   - **Build Command**: `yarn build`
    - **Publish Directory**: `dist`
 
 ### Environment Variables for Frontend:

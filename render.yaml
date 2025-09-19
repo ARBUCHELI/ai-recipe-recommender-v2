@@ -49,7 +49,7 @@ services:
     name: nutriagent-ai-frontend
     env: static
     region: oregon  
-    buildCommand: npm install && npm run build
+    buildCommand: yarn build
     staticPublishPath: ./dist
     routes:
       - type: rewrite
