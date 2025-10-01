@@ -1,4 +1,4 @@
-# ShopApp
+# NutriAgent
 
 ## Live Project
 
